@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booking.userbooking.mapper.ActivityInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.booking.userbooking.pojo.ActivityInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="activityNo" column="activity_no" jdbcType="VARCHAR"/>
+            <result property="activityName" column="activity_name" jdbcType="VARCHAR"/>
+            <result property="activityDescription" column="activity_description" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="image" column="image" jdbcType="VARCHAR"/>
+            <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,activity_no,activity_name,
+        activity_description,status,image,create_id,
+        create_time,update_id,update_time
+    </sql>
+
+    <select id="getAllActivityInfo" resultType="com.booking.userbooking.vo.ActivityInfoVo">
+        select * from activity_info
+        <if test="param != null and param != ''">
+            where activity_no like concat('%',#{param},'%') or activity_no like concat('%',#{param},'%')
+        </if>
+    </select>
+
+    <insert id="addActivity" parameterType="com.booking.userbooking.pojo.ActivityInfo">
+        insert into activity_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityNo != null and activityNo != ''">
+                activity_no,
+            </if>
+            <if test="activityName != null and activityName != ''">
+                activity_name,
+            </if>
+            <if test="activityDescription != null and activityDescription != ''">
+                activity_description,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="image != null and image != ''">
+                image,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityNo != null and activityNo != ''">
+                #{activityNo,jdbcType=VARCHAR},
+            </if>
+            <if test="activityName != null and activityName != ''">
+                #{activityName,jdbcType=VARCHAR},
+            </if>
+            <if test="activityDescription != null and activityDescription != ''">
+                #{activityDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="image != null and image != ''">
+                #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="editActivity" parameterType="com.booking.userbooking.pojo.ActivityInfo">
+        update activity_info
+        <set>
+            <if test="activityName != null and activityName != ''">
+                activity_name = #{activityName},
+            </if>
+            <if test="activityDescription != null and activityDescription != ''">
+                activity_description = #{activityDescription},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+    </update>
+
+    <delete id="deleteActivityByActivityNo">
+        delete from activity_info where activity_no = #{activityNo}
+    </delete>
+</mapper>

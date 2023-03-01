@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,teacher-scalable=no" />
+<title>预约管理</title>
+<link rel="stylesheet" type="text/css" th:href="@{/admin/layui/css/layui.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/admin/css/admin.css}" />
+</head>
+
+<body>
+	<div class="page-content-wrap" id="bookInfoSearch">
+		<h5 style="text-align:center;font-size: 20px;line-height: 25px;color:#666">预约管理</h5>
+		<hr>
+		<div class="layui-form-item" id="main">
+			<div class="layui-inline">
+				<input type="text" id="param" placeholder="请输入查询信息"
+					autocomplete="off" class="layui-input">
+			</div>
+			<button class="layui-btn layui-btn-normal site-demo-active"
+					data-type="search" id="searchBook">搜索</button>
+<!--			<button class="layui-btn layui-btn-normal site-demo-active"-->
+<!--					data-type="export" id="exportBook" style="float: right;margin-right: 50px">导出</button>-->
+			<table class="layui-table" lay-filter="mainTable" id="mainTable">
+			</table>
+		</div>
+	</div>
+	<script src="../admin/layui/layui.all.js" type="text/javascript"
+		charset="utf-8"></script>
+
+	<script>
+		layui.use(['table','upload'], function() {
+			var $ = layui.jquery, upload = layui.upload
+			var table = layui.table;
+
+			table.render({
+				elem : "#mainTable"
+				, url : "/book/getBookingByBarberNo"
+				, cols: [
+					[
+					{field:'barberNo' ,title:'理发师编号',width:100,align : 'center'}
+					,{field :'barberName',title:'理发师姓名',width:100,align : 'center'}
+					,{field :'score',title:'评分',width:90,align : 'center'}
+					,{field :'bookingTime',title:'到店日期',width:150,align : 'center'}
+					,{field:'skillNo',width:200 ,title:'技能编号',align : 'center'}
+					,{field :'skillName',width:200,title:'技能名称',align : 'center'}
+					,{field:'openId' ,title:'用户ID',width:200,align : 'center',}
+					,{field :'phone',title:'电话',width:200,align : 'center'}
+					,{field :'skillAmount',width:200,title:'金额',align : 'center'}
+					,{field :'createTime',title:'预约时间',width:200,align : 'center'}
+				]
+				]
+				, page : true
+				, limit : 10
+				, limits : [10,20,30,40]
+			});
+
+
+			//触发事件
+			var active = {
+				search:function(){
+					var name=$("#param").val();
+					table.reload('mainTable',{
+							method: 'POST'
+						 , where: {"param":name},page: {
+						    curr: 1 //重新从第 1 页开始
+						  }
+						})
+				},
+				export : function (){
+					var data = $("#teacherNameSearch").val();
+					console.log(data)
+					location.href = "/Instructor/exportInstructor?data="+data;
+				},
+			};
+
+			$('#bookInfoSearch .layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+		});
+	</script>
+</body>
+
+</html>

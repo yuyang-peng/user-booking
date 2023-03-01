@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booking.userbooking.mapper.RecommendCommodityMapper">
+
+    <resultMap id="BaseResultMap" type="com.booking.userbooking.pojo.RecommendCommodity">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="recommendCommodityNo" column="recommend_commodity_no" jdbcType="VARCHAR"/>
+            <result property="recommendCommodityName" column="recommend_commodity_name" jdbcType="VARCHAR"/>
+            <result property="image" column="image" jdbcType="VARCHAR"/>
+            <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,recommend_commodity_no,recommend_commodity_name,
+        image,create_id,create_time,
+        update_id,update_time
+    </sql>
+
+    <select id="getAllRecommend" resultType="com.booking.userbooking.vo.RecommendCommodityVo">
+        select * from recommend_commodity
+        <if test="param != null and param != ''">
+            where recommend_commodity_no like concat('%',#{param},'%') or recommend_commodity_name like concat('%',#{param},'%')
+        </if>
+    </select>
+
+    <insert id="addRecommend" parameterType="com.booking.userbooking.pojo.RecommendCommodity">
+        insert into recommend_commodity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recommendCommodityNo != null and recommendCommodityNo != ''">
+                recommend_commodity_no,
+            </if>
+            <if test="recommendCommodityName != null and recommendCommodityName != ''">
+                recommend_commodity_name,
+            </if>
+            <if test="image != null and image != ''">
+                image,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recommendCommodityNo != null and recommendCommodityNo != ''">
+                #{recommendCommodityNo,jdbcType=VARCHAR},
+            </if>
+            <if test="recommendCommodityName != null and recommendCommodityName != ''">
+                #{recommendCommodityName,jdbcType=VARCHAR},
+            </if>
+            <if test="image != null and image != ''">
+                #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="editRecommend" parameterType="com.booking.userbooking.pojo.RecommendCommodity">
+        update recommend_commodity
+        <set>
+            <if test="recommendCommodityName != null and recommendCommodityName != ''">
+                recommend_commodity_name = #{recommendCommodityName},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+            where recommend_commodity_no = #{recommendCommodityNo}
+    </update>
+
+    <delete id="deleteRecommendByRecommendCommodityNo">
+        delete from recommend_commodity where recommend_commodity_no = #{recommendCommodityNo}
+    </delete>
+
+
+</mapper>

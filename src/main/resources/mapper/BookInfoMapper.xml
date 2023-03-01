@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booking.userbooking.mapper.BookInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.booking.userbooking.pojo.BookInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="barberNo" column="barber_no" jdbcType="VARCHAR"/>
+            <result property="bookingType" column="booking_type" jdbcType="INTEGER"/>
+            <result property="skillNo" column="skill_no" jdbcType="VARCHAR"/>
+            <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+            <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,barber_no,booking_type,
+        skill_no,open_id,create_id,
+        create_time,update_id,update_time
+    </sql>
+
+    <select id="getAllBookingByBarberNo" resultType="com.booking.userbooking.vo.BookInfoVo">
+        select bi.barber_no,bi.barber_name,bi.score,bs.skill_no,bs.skill_name,bs.skill_amount,bo.booking_type,bo.create_time,ui.open_id,ui.phone
+        from barber_info as bi ,
+             barber_skill as bs,
+             book_info as bo,
+             user_info as ui
+        where bo.barber_no = bi.barber_no
+        and bo.skill_no = bs.skill_no
+        and bo.open_id = ui.open_id
+        <if test="param != null and param != ''">
+            and bo.open_id like concat('%',#{param},'%')
+        </if>
+        <if test="barberNo != null and barberNo != ''">
+            and bo.barber_no = #{barberNo}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booking.userbooking.mapper.BarberSkillMapper">
+
+    <resultMap id="BaseResultMap" type="com.booking.userbooking.pojo.BarberSkill">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="skillNo" column="skill_no" jdbcType="VARCHAR"/>
+            <result property="skillName" column="skill_name" jdbcType="VARCHAR"/>
+            <result property="skillAmount" column="skill_amount" jdbcType="INTEGER"/>
+            <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,skill_no,skill_name,
+        skill_amount,create_id,create_time,
+        update_id,update_time
+    </sql>
+    <select id="getAllBarberSkill" resultType="com.booking.userbooking.pojo.BarberSkill">
+        select * from barber_skill
+        <if test="param != null and param !=''">
+            where skill_no like concat('%',#{param},'%') or skill_name like concat('%',#{param},'%')
+        </if>
+    </select>
+</mapper>

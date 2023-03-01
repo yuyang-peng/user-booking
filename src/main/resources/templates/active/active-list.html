@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,teacher-scalable=no" />
+<title>活动管理</title>
+<link rel="stylesheet" type="text/css" th:href="@{/admin/layui/css/layui.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/admin/css/admin.css}" />
+	<style type="text/css">
+		.layui-table-cell {
+			height: auto;
+			line-height: 28px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="page-content-wrap" id="activitySearch">
+		<h5 style="text-align:center;font-size: 20px;line-height: 25px;color:#666">活动管理</h5>
+		<hr>
+		<div class="layui-form-item" id="main">
+			<div class="layui-inline tool-btn">
+				<button class="layui-btn layui-btn-small site-demo-active"
+					data-type="tabAdd">
+					<i class="layui-icon">&#xe654;</i>
+				</button>
+			</div>
+			<div class="layui-inline">
+				<input type="text" id="param" placeholder="请输入活动编号/活动名称"
+					autocomplete="off" class="layui-input">
+			</div>
+			<button class="layui-btn layui-btn-normal site-demo-active"
+					data-type="search" id="searchActivity">搜索</button>
+<!--			<button class="layui-btn layui-btn-normal site-demo-active"-->
+<!--					data-type="export" id="exportActivity" style="float: right;margin-right: 50px">导出</button>-->
+<!--			<button class="layui-btn layui-btn-normal site-demo-active"-->
+<!--					id="addImage" style="float: right;margin-right: 50px">上传</button>-->
+			<table class="layui-table" lay-filter="mainTable" id="mainTable">
+			</table>
+		</div>
+
+
+		<script type="text/html" id="barDemo">
+			{{# if(d.status == 0){ }}
+			<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="openActivity">启用</a>
+			{{# } }}
+			{{# if(d.status == 1){ }}
+			<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="closeActivity">停用</a>
+			{{# } }}
+  			<a class="layui-btn layui-btn-sm" lay-event="edit">编辑</a>
+  			<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+		</script>
+	</div>
+	<script src="../admin/layui/layui.all.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script type="text/html" id="imgTpl">
+		<img src="{{ d.imageTmp }}">
+	</script>
+
+	<script>
+		layui.use(['table','upload'], function() {
+			var $ = layui.jquery, upload = layui.upload
+			var table = layui.table;
+
+			table.render({
+				elem : "#mainTable"
+				, url : "/active/getAllActivity"
+				, cols: [
+					[
+					{field:'activityNo' ,title:'活动编号',width:100,align : 'center',}
+					,{field :'activityName',title:'活动名称',width:100,align : 'center'}
+					,{field :'activityDescription',title:'活动描述',width:100,align : 'center'}
+					,{field :'status',title:'活动状态',width:150,align : 'center',templet:function (d){
+						if (d.status === 0){
+							return '停用';
+						}else {
+							return '启用';
+						}
+						}}
+					,{field :'imageTmp',title:'图片',width:200,align : 'center',templet: "#imgTpl"}
+					,{field :'createId',title:'创建人',width:100,align : 'center'}
+					,{field :'createTime',title:'创建时间',width:200,align : 'center'}
+					,{field :'updateId',title:'修改人',width:200,align : 'center'}
+					,{field :'updateTime',title:'修改时间',width:200,align : 'center'}
+					,{fixed: '',title:'操作',width:200,align:'center', toolbar: '#barDemo'}
+				]
+				]
+				, page : true
+				, limit : 10
+				, limits : [10,20,30,40]
+			});
+
+			//监听工具条
+			table.on('tool(mainTable)', function(obj) {
+				var data = obj.data;
+				console.log(data)
+				if (obj.event === 'del') {
+					layer.confirm('真的删除该活动吗？', function(index) {
+						var data = obj.data;
+						console.log(data)
+						$.ajax({
+							//几个参数需要注意一下
+							type: "POST",//方法类型
+							dataType: "json",//预期服务器返回的数据类型
+							url: "/active/deleteActivity",//url
+							data: data,
+							success: function (result) {
+								if (result.code === "0") {
+									layer.close(index);
+									layer.msg('删除活动成功');
+									layui.table.reload('mainTable',{page:{curr:1}});
+								}else{
+									layer.msg('删除活动失败', {
+										icon: 5
+									});
+								}
+							},
+							error : function() {
+								layer.msg('服务器错误', {
+									icon: 5
+								});
+							}
+						});
+					});
+				}
+				if (obj.event === 'edit') {
+					var editFrom = layui.layer.open({
+				        title : "编辑活动信息",
+				        type : 2,
+				        content : "/active/edit.do",//弹出层页面
+				        area: ['800px', '400px'],
+				        success : function(layero, index){
+				            var body = layui.layer.getChildFrame('body', index);
+				            //获取窗口对象
+				            var iframeWindow = layero.find('iframe')[0].contentWindow;
+							body.find("#activityNo").val(data.activityNo);
+							body.find("#activityName").val(data.activityName);
+							body.find("#activityDescription").val(data.activityDescription);
+				            iframeWindow.layui.form.render();
+				            iframeWindow.layui.form.render('select');
+				        }});
+				}
+				if (obj.event === 'openActivity'){
+					layer.confirm('确定启用该活动吗？', function(index) {
+						var data = obj.data;
+						console.log(data)
+						$.ajax({
+							//几个参数需要注意一下
+							type: "POST",//方法类型
+							dataType: "json",//预期服务器返回的数据类型
+							url: "/active/openActivity",//url
+							data: data,
+							success: function (result) {
+								if (result.code === "0") {
+									layer.close(index);
+									layer.msg('启用活动成功');
+									layui.table.reload('mainTable',{page:{curr:1}});
+								}else{
+									layer.msg('启用活动失败', {
+										icon: 5
+									});
+								}
+							},
+							error : function() {
+								layer.msg('服务器错误', {
+									icon: 5
+								});
+							}
+						});
+					});
+				}
+				if (obj.event === 'closeActivity'){
+					layer.confirm('确定停用该活动吗？', function(index) {
+						var data = obj.data;
+						console.log(data)
+						$.ajax({
+							//几个参数需要注意一下
+							type: "POST",//方法类型
+							dataType: "json",//预期服务器返回的数据类型
+							url: "/active/closeActivity",//url
+							data: data,
+							success: function (result) {
+								if (result.code === "0") {
+									layer.close(index);
+									layer.msg('停用活动成功');
+									layui.table.reload('mainTable',{page:{curr:1}});
+								}else{
+									layer.msg('停用活动失败', {
+										icon: 5
+									});
+								}
+							},
+							error : function() {
+								layer.msg('服务器错误', {
+									icon: 5
+								});
+							}
+						});
+					});
+				}
+			});
+
+			//触发事件
+			var active = {
+				tabAdd : function() {
+					layer.open({
+					      type: 2,
+					      title: '添加活动信息',
+					      shadeClose: true,
+					      shade: false,
+					      area: ['800px', '400px'],
+					      content: '/active/add.do'
+					    });
+				
+				},
+				search:function(){
+					var name=$("#param").val();
+					table.reload('mainTable',{
+							method: 'POST'
+						 , where: {"param":name},page: {
+						    curr: 1 //重新从第 1 页开始
+						  }
+						})
+				},
+				export : function (){
+					var data = $("#teacherNameSearch").val();
+					console.log(data)
+					location.href = "/Instructor/exportInstructor?data="+data;
+				},
+			};
+
+			$('#activitySearch .layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+		});
+	</script>
+</body>
+
+</html>

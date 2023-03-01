@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booking.userbooking.mapper.UserInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.booking.userbooking.pojo.UserInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,open_id,phone,
+        create_id,create_time,update_id,
+        update_time
+    </sql>
+
+    <select id="getAllUser" resultType="com.booking.userbooking.pojo.UserInfo">
+        select * from user_info
+        <if test="param != null and param != ''">
+            where open_id like concat('%',#{param},'%') or phone like concat('%',#{param},'%')
+        </if>
+    </select>
+</mapper>

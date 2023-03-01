@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.booking.userbooking.mapper.BarberInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.booking.userbooking.pojo.BarberInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="barberNo" column="barber_no" jdbcType="VARCHAR"/>
+            <result property="barberName" column="barber_name" jdbcType="VARCHAR"/>
+            <result property="barberPassword" column="barber_password" jdbcType="VARCHAR"/>
+            <result property="barberAge" column="barber_age" jdbcType="INTEGER"/>
+            <result property="barberPhone" column="barber_phone" jdbcType="VARCHAR"/>
+            <result property="barberSkillNo" column="barber_skill_no" jdbcType="VARCHAR"/>
+            <result property="morningBookingNum" column="morning_booking_num" jdbcType="INTEGER"/>
+            <result property="afternoonBookingNum" column="afternoon_booking_num" jdbcType="INTEGER"/>
+            <result property="score" column="score" jdbcType="DOUBLE"/>
+            <result property="image" column="image" jdbcType="VARCHAR"/>
+            <result property="createId" column="create_id" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateId" column="update_id" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,barber_no,barber_name,
+        barber_password,barber_age,barber_phone,
+        barber_skill_no,morning_booking_num,afternoon_booking_num,
+        score,image,create_id,
+        create_time,update_id,update_time
+    </sql>
+    <select id="getAllBarberInfo" resultType="com.booking.userbooking.vo.BarberVo">
+        select * from barber_info where barber_no != #{barberNo}
+        <if test="param != null and param != ''">
+            and barber_no like concat('%',#{param},'%') or barber_name like concat('%',#{param},'%')
+        </if>
+    </select>
+
+    <insert id="addBarber" parameterType="com.booking.userbooking.pojo.BarberInfo">
+        insert into barber_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="barberNo != null and barberNo != ''">
+                barber_no,
+            </if>
+            <if test="barberPassword != null and barberPassword != ''">
+                barber_password,
+            </if>
+            <if test="barberName != null and barberName != ''">
+                barber_name,
+            </if>
+            <if test="barberAge != null">
+                barber_age,
+            </if>
+            <if test="barberPhone != null and barberPhone != ''">
+                barber_phone,
+            </if>
+            <if test="barberSkillNo != null and barberSkillNo != ''">
+                barber_skill_no,
+            </if>
+            <if test="morningBookingNum != null">
+                morning_booking_num,
+            </if>
+            <if test="afternoonBookingNum != null">
+                afternoon_booking_num,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="image != null and image != ''">
+                image,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="barberNo != null and barberNo != ''">
+                #{barberNo,jdbcType=VARCHAR},
+            </if>
+            <if test="barberPassword != null and barberPassword != ''">
+                #{barberPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="barberName != null and barberName != ''">
+                #{barberName,jdbcType=VARCHAR},
+            </if>
+            <if test="barberAge != null">
+                #{barberAge,jdbcType=INTEGER},
+            </if>
+            <if test="barberPhone != null and barberPhone != ''">
+                #{barberPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="barberSkillNo != null and barberSkillNo != ''">
+                #{barberSkillNo,jdbcType=VARCHAR},
+            </if>
+            <if test="morningBookingNum != null">
+                #{morningBookingNum,jdbcType=INTEGER},
+            </if>
+            <if test="afternoonBookingNum != null">
+                #{afternoonBookingNum,jdbcType=INTEGER},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=INTEGER},
+            </if>
+            <if test="image != null and image != ''">
+                #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="editBarber" parameterType="com.booking.userbooking.pojo.BarberInfo">
+        update barber_info
+        <set>
+            <if test="barberPassword != null and barberPassword != ''">
+                barber_password = #{barberPassword},
+            </if>
+            <if test="barberName != null and barberName != ''">
+                barber_name = #{barberName},
+            </if>
+            <if test="barberAge != null">
+                barber_age = #{barberAge},
+            </if>
+            <if test="barberPhone != null and barberPhone != ''">
+                barber_phone = #{barberPhone},
+            </if>
+            <if test="morningBookingNum != null">
+                morning_booking_num = #{morningBookingNum},
+            </if>
+            <if test="afternoonBookingNum != null">
+                afternoon_booking_num = #{afternoonBookingNum},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id = #{updateId},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+            where barber_no = #{barberNo}
+    </update>
+
+    <delete id="deleteBarberByBarberNo" >
+        delete from barber_info where barber_no = #{barberNo}
+    </delete>
+</mapper>
