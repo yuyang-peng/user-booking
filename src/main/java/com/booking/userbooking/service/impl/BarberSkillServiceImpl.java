@@ -6,7 +6,6 @@ import com.booking.userbooking.pojo.BarberInfo;
 import com.booking.userbooking.pojo.BarberSkill;
 import com.booking.userbooking.service.BarberSkillService;
 import com.booking.userbooking.mapper.BarberSkillMapper;
-import com.booking.userbooking.vo.BarberVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
