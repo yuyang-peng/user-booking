@@ -1,5 +1,6 @@
 package com.booking.userbooking.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.booking.userbooking.http.request.UserLoginParam;
 import com.booking.userbooking.pojo.BarberInfo;
 import com.booking.userbooking.service.BarberInfoService;
@@ -34,14 +35,24 @@ public class LoginController {
     }
 
     @RequestMapping("/index.do")
-    public String index() {
-        return "index";
+    public String index(HttpServletRequest request) {
+        BarberInfo barberInfo = (BarberInfo) request.getSession().getAttribute("barber");
+        if (ObjectUtil.isEmpty(barberInfo)){
+            return "login";
+        }else {
+            return "index";
+        }
+
     }
 
     @RequestMapping("/barberIndex.do")
-    public ModelAndView barberIndex() {
-        ModelAndView mav = new ModelAndView("/barber/barber-index");
-        return mav;
+    public ModelAndView barberIndex(HttpServletRequest request) {
+        BarberInfo barberInfo = (BarberInfo) request.getSession().getAttribute("barber");
+        if (ObjectUtil.isEmpty(barberInfo)){
+            return new ModelAndView("/login");
+        }else {
+            return new ModelAndView("/barber/barber-index");
+        }
     }
 
     @ResponseBody
