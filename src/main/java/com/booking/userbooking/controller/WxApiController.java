@@ -27,9 +27,6 @@ public class WxApiController {
     @Autowired
     private WxApiService wxApiService;
 
-    @Autowired
-    private BarberSkillService barberSkillService;
-
     @ResponseBody
     @PostMapping("/wxLogin")
     public ResultObject<Object> login(@RequestBody JSONObject param) {
@@ -213,7 +210,10 @@ public class WxApiController {
         return res;
     }
 
-
+    /**
+     * 获取活动
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/getActivity")
     public ResultObject<Object> getActivity(){

@@ -8,6 +8,7 @@ import com.booking.userbooking.mapper.BookInfoMapper;
 import com.booking.userbooking.mapper.UserInfoMapper;
 import com.booking.userbooking.pojo.*;
 import com.booking.userbooking.service.*;
+import com.booking.userbooking.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,12 +61,12 @@ public class WxApiServiceImpl implements WxApiService {
 
     @Override
     public List<BarberInfo> getAllBarber() {
-        return barberInfoService.lambdaQuery().list();
+        return barberInfoService.lambdaQuery().ne(BarberInfo::getBarberNo, Constant.ADMIN_NAME).list();
     }
 
     @Override
     public List<BarberInfo> getAllBarberByScore() {
-        return barberInfoService.lambdaQuery().ge(BarberInfo::getScore,8).list();
+        return barberInfoService.lambdaQuery().ne(BarberInfo::getBarberNo, Constant.ADMIN_NAME).ge(BarberInfo::getScore,8).list();
     }
 
     @Override
