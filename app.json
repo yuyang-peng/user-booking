@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/home/home",
+    "pages/tuijian/tuijian",
     "pages/skill/skill",
     "pages/skill/skillDetail/skillDetail",
     "pages/user/user",
@@ -20,6 +21,11 @@
     "list":[{
       "pagePath":"pages/home/home",
       "text":"首页",
+      "iconPath":"pages/images/index_icon.png",
+      "selectedIconPath":"pages/images/index_icon_HL.png"
+    },{
+      "pagePath":"pages/tuijian/tuijian",
+      "text":"推荐",
       "iconPath":"pages/images/index_icon.png",
       "selectedIconPath":"pages/images/index_icon_HL.png"
     },{

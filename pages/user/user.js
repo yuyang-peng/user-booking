@@ -11,19 +11,19 @@ Page({
       avatarUrl:"/pages/images/avatar.png",
       
     },
-    address: [{
-      name: "张三",
-      tell: "138*****094",
-      address: "北京直辖市朝阳市区望京"
-    }, {
-      name: "双丰收",
-      tell: "153*****456",
-      address: "北京直辖市朝阳市区望京"
-      }, {
-        name: "时代峰峻",
-        tell: "134*****690",
-        address: "北京直辖市朝阳市区望京"
-      }]
+    // address: [{
+    //   name: "张三",
+    //   tell: "138*****094",
+    //   address: "北京直辖市朝阳市区望京"
+    // }, {
+    //   name: "双丰收",
+    //   tell: "153*****456",
+    //   address: "北京直辖市朝阳市区望京"
+    //   }, {
+    //     name: "时代峰峻",
+    //     tell: "134*****690",
+    //     address: "北京直辖市朝阳市区望京"
+    //   }]
   },
 
   /**
@@ -32,7 +32,7 @@ Page({
   onLoad: function (options) {
     var _self=this;
     // 获取用户信息
-    wx.getUserInfo({
+    wx.getUserProfile({
       success: function (res) {
         var userInfo = res.userInfo
         var nickName = userInfo.nickName

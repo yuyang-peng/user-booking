@@ -9,16 +9,16 @@ Page({
       id:0,
       skill:[{
         id:0,
-        name:"脸部的清洁",
-        price:"600"
+        name:"洗剪吹",
+        price:"30"
       },{
           id: 1,
-          name: "保健按摩",
-          price: "660"
+          name: "烫发",
+          price: "666"
         }, {
           id: 2,
-          name: "药物香薰",
-          price: "300"
+          name: "染发",
+          price: "999"
         }]
     }
   },

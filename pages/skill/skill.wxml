@@ -1,14 +1,7 @@
 <!--pages/skill/skill.wxml-->
 <!-- 搜索框 -->
 <input confirm-type="search" value="" class="searchInput"></input>
-<!-- 地址 -->
-<view class="address">
-  <view class="address_index">
-    <text>{{address.name}} {{address.tell}}
-    {{address.address}}
-    </text>
-  </view>
-</view>
+
 <!-- 附近服务 -->
 <view class="serviceList">
   <view wx:for="{{serviceList}}" class="swiper_con" data-skillId="{{item.id}}" bindtap="toSkill">

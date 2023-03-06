@@ -1,96 +1,83 @@
 {
-	"description": "项目配置文件",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": true,
-		"es6": true,
-		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": true,
-		"autoAudits": false,
-		"coverView": true,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.9.4",
-	"appid": "wxf7dfb3f601b85f5f",
-	"projectname": "%E7%BE%8E%E5%AE%B9%E7%BE%8E%E5%8F%91%20demo",
-	"debugOptions": {
-		"hidedInDevtools": []
-	},
-	"isGameTourist": false,
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"currentL": -1,
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": 3,
-			"list": [
-				{
-					"id": -1,
-					"name": "pages/home/home",
-					"pathName": "pages/home/home",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/user/user",
-					"pathName": "pages/user/user",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/addAddress/addAddress",
-					"pathName": "pages/addAddress/addAddress",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/appointment/appointment",
-					"pathName": "pages/appointment/appointment",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/skill/skill",
-					"pathName": "pages/skill/skill",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/skill/skillDetail/skillDetail",
-					"pathName": "pages/skill/skillDetail/skillDetail",
-					"scene": null
-				}
-			]
-		}
-	}
+  "description": "项目配置文件",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "autoAudits": false,
+    "coverView": true,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "condition": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.9.4",
+  "appid": "wxf7dfb3f601b85f5f",
+  "projectname": "%E7%BE%8E%E5%AE%B9%E7%BE%8E%E5%8F%91%20demo",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/home/home",
+          "pathName": "pages/home/home",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/tuijian/tuijian",
+          "pathName": "pages/tuijian/tuijian",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/user/user",
+          "pathName": "pages/user/user",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/addAddress/addAddress",
+          "pathName": "pages/addAddress/addAddress",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/appointment/appointment",
+          "pathName": "pages/appointment/appointment",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/skill/skill",
+          "pathName": "pages/skill/skill",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/skill/skillDetail/skillDetail",
+          "pathName": "pages/skill/skillDetail/skillDetail",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
 }

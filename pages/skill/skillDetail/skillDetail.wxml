@@ -3,7 +3,7 @@
   <image class="skillImage" src="/pages/images/skilledt_img_01.png"></image>
 </view>
 <view>
-  <text class="name">包技师</text>
+  <text class="name">彭技师</text>
   <text class="desc">高级美容师就是指美容师中技术能力更好，获得了高级美容师资格证的美容师。美容师是一种专业美容领域的职业称谓。</text>
   <view class="contentList"> 
     <text class="title borderBootom">【服务内容】</text>

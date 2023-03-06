@@ -11,8 +11,8 @@
   </view>
 </view>
 <view class="addressManagement">
-  <text class="text-center">【地址管理】</text>
-  <view class="addressList">
+  <text class="text-center">【预约列表】</text>
+  <!-- <view class="addressList">
     <view class="addressBlock" wx:for="{{address}}" wx:key="unique">
       <text>{{item.name}} {{item.tell}}
         {{item.address}}
@@ -21,5 +21,5 @@
   </view>
   <view class="newAddress" bindtap="newAddress">
     +新增地址
-  </view>
+  </view> -->
 </view>
