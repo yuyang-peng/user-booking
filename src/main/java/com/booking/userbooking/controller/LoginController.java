@@ -1,6 +1,5 @@
 package com.booking.userbooking.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.booking.userbooking.http.request.UserLoginParam;
 import com.booking.userbooking.pojo.BarberInfo;
 import com.booking.userbooking.service.BarberInfoService;
@@ -74,8 +73,5 @@ public class LoginController {
         log.info("---------------执行barberLoginOut,res:"  + res);
         return res;
     }
-
-
-    /**/
 
 }

@@ -2,17 +2,14 @@ package com.booking.userbooking.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.booking.userbooking.http.request.AddBarberParam;
 import com.booking.userbooking.http.request.AddRecommendCommodityParam;
 import com.booking.userbooking.pojo.BarberInfo;
 import com.booking.userbooking.pojo.RecommendCommodity;
 import com.booking.userbooking.service.RecommendCommodityService;
 import com.booking.userbooking.mapper.RecommendCommodityMapper;
-import com.booking.userbooking.vo.BarberVo;
 import com.booking.userbooking.vo.RecommendCommodityVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

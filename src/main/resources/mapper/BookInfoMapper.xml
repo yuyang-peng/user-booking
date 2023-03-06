@@ -38,4 +38,60 @@
             and bo.barber_no = #{barberNo}
         </if>
     </select>
+
+    <insert id="insertBook" parameterType="com.booking.userbooking.pojo.BookInfo">
+        insert into book_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="barberNo != null and barberNo != ''">
+                barber_no,
+            </if>
+            <if test="bookingType != null">
+                booking_type,
+            </if>
+            <if test="skillNo != null and skillNo != ''">
+                skill_no,
+            </if>
+            <if test="openId != null and openId != ''">
+                open_id,
+            </if>
+            <if test="createId != null and createId != ''">
+                create_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateId != null and updateId != ''">
+                update_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="barberNo != null and barberNo != ''">
+                #{barberNo,jdbcType=VARCHAR},
+            </if>
+            <if test="bookingType != null">
+                #{bookingType,jdbcType=INTEGER},
+            </if>
+            <if test="skillNo != null and skillNo != ''">
+                #{skillNo,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null and openId != ''">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="createId != null and createId != ''">
+                #{createId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateId != null and updateId != ''">
+                #{updateId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
 </mapper>
