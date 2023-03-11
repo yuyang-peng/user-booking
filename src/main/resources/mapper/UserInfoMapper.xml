@@ -50,8 +50,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="openId != null and activityNo != ''">
-                #{open_id,jdbcType=VARCHAR},
+            <if test="openId != null and openId != ''">
+                #{openId,jdbcType=VARCHAR},
             </if>
             <if test="phone != null and phone != ''">
                 #{phone},

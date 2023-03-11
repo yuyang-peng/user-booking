@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,17 +28,73 @@ public class WxApiController {
     @Autowired
     private WxApiService wxApiService;
 
+    public String getAccessToken() {
+        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + Constant.APPID + "&secret=" + Constant.APPSECRET;
+        RestTemplate restTemplate = new RestTemplate();
+        ResultObject<Object> res = new ResultObject<>();
+        String result = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = JSONUtil.parseObj(result);
+        if (jsonObject.containsKey("access_token")){
+            String access_token = jsonObject.getStr("access_token");
+            return access_token;
+        }
+        return "error";
+    }
+
+    @ResponseBody
+    @PostMapping("/wxGetPhone")
+    public ResultObject<Object> wxGetPhone(@RequestBody JSONObject param) {
+        String access_token = getAccessToken();
+        ResultObject<Object> res = new ResultObject<>();
+        if (access_token == "error"){
+            res.setCode(Constant.FAILURE_RETUEN_CODE);
+            res.setMsg("获取access_token失败,请联系管理员");
+            log.info(res.toString());
+            return res;
+        }
+        String url = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=" + access_token ;
+        RestTemplate restTemplate = new RestTemplate();
+        JSONObject rtn = new JSONObject();
+        //        设置请求参数
+        HashMap<String, Object> map = new HashMap<>();
+        String code = param.getStr("code");
+        map.put("code", code);
+        JSONObject jsonObject = restTemplate.postForObject(url, map, JSONObject.class);
+        if (!"0".equals(jsonObject.getStr("errcode"))){
+            res.setCode(Constant.FAILURE_RETUEN_CODE);
+            res.setMsg(jsonObject.getStr("errmsg"));
+            log.info(res.toString());
+            return res;
+        }
+        String phone = JSONUtil.parseObj(jsonObject.getStr("phone_info")).getStr("phoneNumber");
+        rtn.putOnce("phone", phone);
+        //插入user表
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhone(phone);
+        userInfo.setOpenId(param.getStr("openId"));
+        try {
+            wxApiService.insertUserInfo(userInfo);
+        } catch (Exception e) {
+            //懒得管唯一值phone第二次插入了
+            log.error(String.valueOf(e));
+        }
+        res.setCode(Constant.SUCCESS_RETUEN_CODE);
+        res.setData(rtn);
+        log.info(res.toString());
+        return res;
+    }
+
     @ResponseBody
     @PostMapping("/wxLogin")
     public ResultObject<Object> login(@RequestBody JSONObject param) {
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + Constant.APPID + "&secret=" + Constant.APPSECRET
                 + "&js_code=" + param.getStr("code") + "&grant_type=authorization_code";
         RestTemplate restTemplate = new RestTemplate();
-        ResultObject<Object> res = new ResultObject<>();
         JSONObject rtn = new JSONObject();
+        ResultObject<Object> res = new ResultObject<>();
         String result = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = JSONUtil.parseObj(result);
-        if (!"0".equals(jsonObject.getStr("errcode"))){
+        if (!"0".equals(jsonObject.getStr("errcode")) ){
             res.setCode(Constant.FAILURE_RETUEN_CODE);
             res.setMsg(jsonObject.getStr("errmsg"));
             log.info(res.toString());
@@ -47,7 +104,7 @@ public class WxApiController {
         rtn.putOnce("openId", wxInfo.getOpenid());
         //插入user表
         UserInfo userInfo = new UserInfo();
-        userInfo.setPhone(param.getStr("phone"));
+//        userInfo.setPhone(JSONUtil.parseObj(jsonObject_p.getStr("phone_info")).getStr("phoneNumber"));
         userInfo.setOpenId(wxInfo.getOpenid());
         wxApiService.insertUserInfo(userInfo);
         res.setCode(Constant.SUCCESS_RETUEN_CODE);
