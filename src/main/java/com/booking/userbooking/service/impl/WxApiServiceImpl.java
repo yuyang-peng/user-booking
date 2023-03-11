@@ -31,6 +31,9 @@ public class WxApiServiceImpl implements WxApiService {
     private UserInfoMapper userInfoMapper;
 
     @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
     private RecommendCommodityService recommendCommodityService;
 
     @Autowired
@@ -47,11 +50,24 @@ public class WxApiServiceImpl implements WxApiService {
 
     @Override
     public void insertUserInfo(UserInfo userInfo) {
-        userInfo.setCreateId("sys");
-        userInfo.setCreateTime(new Date());
-        userInfo.setUpdateId("sys");
-        userInfo.setUpdateTime(new Date());
-        userInfoMapper.insertUserInfo(userInfo);
+        //插入前先判断是否已存在
+        UserInfo one = userInfoService.lambdaQuery()
+                .eq(UserInfo::getOpenId, userInfo.getOpenId())
+                .one();
+        //已存在执行修改
+        if (!ObjectUtil.isEmpty(one)){
+            userInfoService.lambdaUpdate()
+                    .set(UserInfo::getPhone,userInfo.getPhone())
+                    .set(UserInfo::getUpdateTime,new Date())
+                    .eq(UserInfo::getOpenId,userInfo.getOpenId())
+                    .update();
+        }else {
+            userInfo.setCreateId("sys");
+            userInfo.setCreateTime(new Date());
+            userInfo.setUpdateId("sys");
+            userInfo.setUpdateTime(new Date());
+            userInfoMapper.insertUserInfo(userInfo);
+        }
     }
 
     @Override
