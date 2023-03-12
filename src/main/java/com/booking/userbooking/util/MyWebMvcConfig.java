@@ -23,6 +23,6 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
                 //拦截所有路径
                 .addPathPatterns("/**")
                 //排除路径
-                .excludePathPatterns("/login.html","/login/**","/admin/**","/js/**","/api/**");
+                .excludePathPatterns("/login.html","/login/**","/admin/**","/js/**","/api/**","/images/**");
     }
 }
