@@ -16,6 +16,8 @@ import java.util.List;
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
     List<UserInfo> getAllUser(String param);
+
+    void insertUserInfo(UserInfo userInfo);
 }
 
 

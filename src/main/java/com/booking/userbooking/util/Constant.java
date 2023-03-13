@@ -34,4 +34,11 @@ public class Constant {
     public static String ADMIN_TYPE="0";
 
     public static String ADMIN_NAME="admin";
+
+    public static String APPID= "wxec15cb622338dfea";
+
+    public static String APPSECRET= "552652553c6fe1b53204f3228c5ff7f9";
+
+
+
 }

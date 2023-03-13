@@ -20,7 +20,7 @@ public class UserLoinInterceptor implements HandlerInterceptor {
             if (barberInfo!=null){
                 return true;
             } else {
-                response.sendRedirect(request.getContextPath()+"login.html");
+                response.sendRedirect(request.getContextPath()+"/login/login.do");
             }
         } catch (Exception e){
             e.printStackTrace();

@@ -18,6 +18,8 @@ import java.util.List;
 public interface BookInfoMapper extends BaseMapper<BookInfo> {
 
     List<BookInfoVo> getAllBookingByBarberNo(@Param("param") String param,@Param("barberNo") String barberNo);
+
+    Integer insertBook(BookInfo bookInfo);
 }
 
 

@@ -30,4 +30,6 @@ public interface BarberInfoService extends IService<BarberInfo> {
     Integer deleteBarberByBarberNo(String barberNo);
 
     BarberInfo getBarberInfo(BarberInfo barberInfo);
+
+    boolean updateAllBarberNum();
 }

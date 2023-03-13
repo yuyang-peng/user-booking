@@ -11,6 +11,7 @@ import com.booking.userbooking.service.ActivityInfoService;
 import com.booking.userbooking.service.BarberInfoService;
 import com.booking.userbooking.mapper.BarberInfoMapper;
 import com.booking.userbooking.service.BarberSkillService;
+import com.booking.userbooking.util.Constant;
 import com.booking.userbooking.vo.BarberVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -117,6 +118,18 @@ public class BarberInfoServiceImpl extends ServiceImpl<BarberInfoMapper, BarberI
         return this.lambdaQuery()
                 .eq(BarberInfo::getBarberNo,barberInfo.getBarberNo())
                 .one();
+    }
+
+    @Override
+    public boolean updateAllBarberNum() {
+        List<BarberInfo> barberInfos = this.lambdaQuery()
+                .ne(BarberInfo::getBarberNo, ADMIN_NAME).list();
+        List<String> barberNos = barberInfos.stream().map(BarberInfo::getBarberNo).collect(Collectors.toList());
+        return this.lambdaUpdate()
+                .set(BarberInfo::getAfternoonBookingNum, 4)
+                .set(BarberInfo::getMorningBookingNum, 4)
+                .in(BarberInfo::getBarberNo, barberNos)
+                .update();
     }
 }
 

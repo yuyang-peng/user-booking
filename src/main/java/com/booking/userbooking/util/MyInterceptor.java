@@ -19,7 +19,7 @@ public class MyInterceptor implements HandlerInterceptor {
         BarberInfo barberInfo = (BarberInfo) request.getSession().getAttribute("barber");
         if (barberInfo == null) {
             //拦截未登录请求,跳转到登录页面
-            request.getRequestDispatcher("/login.html").forward(request, response);
+            request.getRequestDispatcher("/login/login.do").forward(request, response);
             return false;
         }
         return true;
