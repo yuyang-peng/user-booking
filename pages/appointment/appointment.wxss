@@ -26,9 +26,9 @@
   line-height: 2;
 }
 .electTime{
-  width: 45%;
+  width: 80%;
   display: inline-block;
-  margin: 20rpx 2%;
+  margin: 20rpx 10%;
 }
 .timeInput{
  width: 56%;

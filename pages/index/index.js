@@ -6,16 +6,25 @@ Page({
   data: {
     motto: '欢迎来到美容专题',
     userInfo: {},
-    phone:{},
+    phoneInfo:{},
     hasPhone:false,
     hasUserInfo: false,
     canIUseGetUserProfile: false,
   },
   //事件处理函数
   toHome:function(){
-    wx.reLaunch({
-      url: '/pages/home/home',
-    })
+    if (JSON.stringify(this.data.phoneInfo) == "{}" ){
+      wx.showToast({
+        title: "请先登录",
+        icon: 'error',
+        duration: 1000
+      })
+    }else{
+      wx.reLaunch({
+        url: '/pages/home/home',
+      })
+    }
+
   },
   bindViewTap: function() {
     wx.navigateTo({
@@ -46,11 +55,47 @@ Page({
 
   //获取用户手机号
   getPhoneNumber (e) {
-    app.globalData.phone = e.detail.phone
-                this.setData({
-                  userInfo: e.detail.code,
-                  hasPhone: true
-                })
+    var that = this
     console.log(e.detail.code)
+    wx.request({
+      url: 'http://localhost:8080/api/wxGetPhone',
+      method: "POST",
+      data: {
+        code: e.detail.code,
+        openId:app.globalData.openId
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        if (res.statusCode == 200){
+          app.globalData.phoneInfo = res.data.data
+          that.setData({
+              phoneInfo: res.data.data,
+              hasPhone: true
+          })
+          wx.showToast({
+            title: "登陆成功",
+            icon: 'success',
+            duration: 500
+          })
+        }else{
+          wx.showToast({
+            title: "网络繁忙",
+            icon: 'error',
+            duration: 2000
+          })
+        }
+        
+      },
+      fail (res){
+        wx.showToast({
+          title: "网络繁忙",
+          icon: 'error',
+          duration: 2000
+        })
+      }
+    })
+
   }
 })

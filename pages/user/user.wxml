@@ -2,12 +2,13 @@
 <view class="userInfo">
 <!-- 用户信息 -->
   <view class="">
-    <image class="userHeader" src="{{userInfo.avatarUrl}}"></image>
+    <image class="userHeader" open-type="getUserInfo"
+    bindtap="getUserProfile" src="{{userInfo.avatarUrl}}"></image>
   </view>
   <view class="basicInfo">
    <text>昵称：{{userInfo.nickName}}</text>  
    <text>性别：{{userInfo.gender}}</text>  
-   <text>电话：XXXXXXXXXXXX</text>  
+   <text>电话：{{phone}}</text>  
   </view>
 </view>
 <view class="addressManagement">

@@ -17,7 +17,7 @@
     </block>
     <block wx:else>
         <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
-          微信用户一键绑定
+          微信用户一键登陆
         </button>
     </block>
 

@@ -13,9 +13,10 @@ page{
   white-space:normal;
   word-break:normal;
   color: #666;
-  font-size: 28rpx;
+  font-size: 32rpx;
 }
 .name{
+  font-size: 60rpx;
   height: 100rpx;
   text-align: center;
   display: inline-block;

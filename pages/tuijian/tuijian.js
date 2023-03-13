@@ -1,5 +1,5 @@
-var app = getApp();
 // pages/tuijian/tuijian.js
+var app = getApp();
 
 Page({
 
@@ -35,58 +35,59 @@ Page({
         title: "其他",
         imageUrl: "/pages/images/nav_icon_05.png"
       }],
-    contentList: ["recommend", "manicure", "cosmetology", "hairdressing","eyelashes"],//获取所有选项卡类型
+    contentList: ["recommend", "barber", "shampoo", "conditioner","other"],//获取所有选项卡类型
     contentInfo: "",//当前所选选项卡的数据
-      recommend:[{//推荐
-        id:0,
-        type:"manicure",
-        imageUrl:"/pages/images/recommend_img_01.png",
-        title:"秋季自然特价美甲",
-        price:"198",
-        desc:"教你怎么做活得精致的小仙女",
+        recommend:[{//推荐
+          id:0,
+          type:"barber",
+          imageUrl:"/pages/images/recommend_img_01.png",
+          title:"秋季自然特价美甲",
+          price:"198",
+          desc:"教你怎么做活得精致的小仙女",
       }, {
           id: 1,
-          type:"eyelashes",
+          type:"other",
           imageUrl: "/pages/images/recommend_img_02.png",
           title: "睫毛稀疏 种睫毛来帮忙",
           price: "1888",
           desc: "长而翘的睫毛，炯炯大眼",
         },{
           id: 2,
-          type: "cosmetology",
+          type: "shampoo",
           imageUrl: "/pages/images/recommend_img_03.png",
           title: "爱丽颗",
           price: "1588",
           desc: "我们追求的只有更好！",
         },{
           id: 3,
-          type:"hairdressing",
+          type:"conditioner",
           imageUrl: "/pages/images/recommend_img_04.png",
           title: "一本造型",
           price: "198",
           desc: "由著名的形象设计师杨XX",
         }, {
           id: 4,
-          type:"hairdressing",
+          type:"conditioner",
           imageUrl: "/pages/images/recommend_img_05.png",
           title: "潮流发型",
           price: "236",
           desc: "当下最时尚最潮流的发型",
         }, {
           id: 5,
-          type:"cosmetology",
+          type:"shampoo",
           imageUrl: "/pages/images/recommend_img_06.png",
           title: "画对了妆，你就是小仙女",
           price: "198",
           desc: "《微微一笑很倾城》剧照仿妆",
         }],
-    manicure: [{//美甲
+        barber: [{//美甲
       id: 0,
       imageUrl: "/pages/images/recommend_img_01.png",
       title: "秋季自然特价美甲",
       price: "198",
       desc: "教你怎么做活得精致的小仙女",
-    }], cosmetology: [{//美容
+    }], 
+        shampoo: [{//美容
       id: 2,
       imageUrl: "/pages/images/recommend_img_03.png",
       title: "爱丽颗",
@@ -98,7 +99,8 @@ Page({
         title: "画对了妆，你就是小仙女",
         price: "198",
         desc: "《微微一笑很倾城》剧照仿妆",
-      }], hairdressing: [{//美发
+      }], 
+        conditioner: [{//美发
         id: 3,
         imageUrl: "/pages/images/recommend_img_04.png",
         title: "一本造型",
@@ -110,7 +112,8 @@ Page({
           title: "潮流发型",
           price: "236",
           desc: "当下最时尚最潮流的发型",
-        }], eyelashes: [{//美睫
+        }], 
+        other: [{//美睫
       id: 1,
       imageUrl: "/pages/images/recommend_img_02.png",
       title: "睫毛稀疏 种睫毛来帮忙",
@@ -126,12 +129,6 @@ Page({
       url: '/pages/appointment/appointment?index='+index,
     })
   },
-  // bindchange:function(e){
-  //   const that = this;
-  //   that.setData({
-  //     currentData:e.detail.current
-  //   })
-  // },
   checkCurrent:function(e){
     const that = this;
     if (that.data.currentData === e.currentTarget.dataset.current){
@@ -149,6 +146,58 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var barber = null;
+    var that = this;
+    wx.request({
+      url: 'http://localhost:8080/api/getRecommendBarber',
+      method: "GET",
+      success (res) {
+        if (res.statusCode == 200){
+        barber = res.data.data.barberList
+        that.setData({
+          barber: res.data.data.barberList,
+        })
+        }else{
+          wx.showToast({
+            title: "网络繁忙",
+            icon: 'error',
+            duration: 1000
+          })
+        }
+      },
+      fail (res){
+        wx.showToast({
+          title: "网络繁忙",
+          icon: 'error',
+          duration: 1000
+        })
+      }
+    })
+    wx.request({
+      url: 'http://localhost:8080/api/getActivity',
+      method: "GET",
+      success (res) {
+        if (res.statusCode == 200){
+        barber = res.data.data.barberList
+        that.setData({
+          barber: res.data.data.barberList,
+        })
+        }else{
+          wx.showToast({
+            title: "网络繁忙",
+            icon: 'error',
+            duration: 1000
+          })
+        }
+      },
+      fail (res){
+        wx.showToast({
+          title: "网络繁忙",
+          icon: 'error',
+          duration: 1000
+        })
+      }
+    })
     this.setData({
       contentInfo: this.data.recommend
     })

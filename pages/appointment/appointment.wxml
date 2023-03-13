@@ -1,32 +1,24 @@
 <!--pages/appointment/appointment.wxml-->
-<image class="img-banner" src="/pages/images/banner_01.png"></image>
-<!-- 地址 -->
-<view class="address">
-  <view class="address_index">
-    <text>{{address.name}} {{address.tell}}
-    {{address.address}}
-    </text>
-  </view>
-</view>
+<image class="img-banner" src="http://localhost:8080{{barber.image}}"></image>
 <!-- 预约服务 -->
 <view class="reservationInfo">
+  <text class="path">{{barber.barberName}}技师 {{barber.barberPhone}} </text>
   <text class="path">服务时间 </text>
   <form bindsubmit="formsubmit">
     <view class="section electTime">
     <!-- <view class="section__title">日期选择器</view> -->
-      <picker mode="date" value="{{date}}" start="2015-09-01" end="2100-00-00" bindchange="bindDateChange">
-        <view class="picker">
-          日期: <view class="inputStyle timeInput" name="date" value="{{date}}">{{date}}</view>
-          <input name="date" hidden="hidden"  value="{{date}}"> </input>
+        <view decode="{{true}}" class="picker">
+          日期:　{{date}}
         </view>
-      </picker>
     </view>
      <view class="section electTime">
       <!-- <view class="section__title">时间选择器</view> -->
-      <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+      <picker value="{{time}}" range="{{range}}" bindchange="bindPickerChange">
         <view class="picker">
-          时间: <view class="inputStyle timeInput" >{{time}}</view>
-          <input name="time" hidden="hidden"  value="{{time}}"> </input>
+          时间: 
+            <view wx:if="{{range.length == 0}}" class="inputStyle timeInput" >　已约满</view>
+            <view wx:else class="inputStyle timeInput" >　{{range[time]}}</view>
+          <input name="time" hidden="hidden"  value="{{range[time]}}"> </input>
         </view>
       </picker>
     </view>

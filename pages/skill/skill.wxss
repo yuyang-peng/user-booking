@@ -37,7 +37,7 @@
 }
 .dataInfo{
   /* border: 1px solid red; */
-  width: calc(100% - 330rpx);
+  width: calc(100% - 230rpx);
   display: inline-block;
   vertical-align: top;
   padding: 0 10rpx;
@@ -45,31 +45,22 @@
 .dataInfo>text{
   display: block
 }
-.dataInfo>.title{
-  font-size: 34rpx;
+.dataInfo>.name{
+  font-size: 38rpx;
   line-height: 2;
 }
-.dataInfo>.price{
-  font-size: 38rpx;
-  color: #d24a58;
+.dataInfo>.age{
+  font-size: 30rpx;
+  color: #666;
 }
-.dataInfo>.desc{
+.dataInfo>.phone{
   font-size: 30rpx;
   color: #666;
   vertical-align: middle;
-  
 }
-/* .appoint{
-  display: inline-block;
-  width: 100rpx;
-  height: 100rpx;
-
-  line-height: 100rpx;
-  text-align: center;
-
-  border: 1px solid #d24a58;
-  border-radius: 50%;
-  vertical-align: top;
-  background: #d24a58;
-  color: #fff;
-} */
+.score{
+  margin-top: 30rpx;
+  float: right;
+  color: #d24a58;
+}
+ 

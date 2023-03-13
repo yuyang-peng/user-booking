@@ -1,92 +1,27 @@
 // pages/skill/skill.js
+//获取应用实例
+const app = getApp()  
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    address: {
-      name: "张三",
-      tell: "138*****094",
-      address: "北京直辖市朝阳市区望京"
-    },
-    serviceList: [{//推荐
-      id: 0,
-      name: "彭技师",
-      type:"hairdressing",
-      imageUrl: "/pages/images/skilledt_img_01.png",
-      title: "美容美发沙龙",
-      price: "500",
-      desc: "从事美发实业30年，有丰富的经验，作战在时尚的前沿",
-      coordinate:{
-        lon:"",
-        hor:""
-      }
-    }, {
-      id: 1,
-      name: "孔技师",
-      type:"manicure",
-      imageUrl: "/pages/images/skilledt_img_02.png",
-      title: "元月美甲沙龙",
-      price: "888",
-      desc: "从事美发美甲行业12年有余，是行业的新兴势力。",
-      coordinate: {
-        lon: "",
-        hor: ""
-      }
-    }, {
-      id: 2,
-      name: "祁腾腾",
-        type:"eyelashes",
-      imageUrl: "/pages/images/skilledt_img_03.png",
-      title: "璀璨美睫会所",
-      price: "588",
-      desc: "追求的只有更漂亮",
-      coordinate: {
-        lon: "",
-        hor: ""
-      }
-    }, {
-      id: 3,
-      name: "成技师",
-        type:"cosmetology",
-      imageUrl: "/pages/images/skilledt_img_04.png",
-      title: "柔丝妮美容养生馆",
-      price: "198",
-      desc: "著名形象设计师",
-      coordinate: {
-        lon: "",
-        hor: ""
-      }
-    }, {
-      id: 4,
-      name: "陈技师",
-        type:"hairdressing",
-      imageUrl: "/pages/images/skilledt_img_01.png",
-      title: "潮流发型有限公司",
-      price: "236",
-      desc: "当下最时尚最潮流的发型",
-      coordinate: {
-        lon: "",
-        hor: ""
-      }
-    }, {
-      id: 5,
-      name: "刘技师",
-      type:"cosmetology",
-      imageUrl: "/pages/images/skilledt_img_02.png",
-      title: "化妆大咖",
-      price: "198",
-      desc: "明星化妆师",
-      coordinate: {
-        lon: "",
-        hor: ""
-      }
-    }]
+    serviceList: [
+    //   {//推荐
+    //   id: 0,
+    //   barberName: "彭技师",
+    //   barberAge:"22",
+    //   barberPhone:"18062790665",
+    //   image: "/pages/images/skilledt_img_01.png",
+    //   score: 5,
+    // }
+  ]
   },
   toSkill: function (e) {
     const index = e.currentTarget.dataset.skillid;
     console.log("当前点击技师的id为："+index);
+    app.globalData.barberNo= index
     wx.navigateTo({
       url:"skillDetail/skillDetail"
     })
@@ -95,7 +30,55 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var that = this
+    var compare = function (prop) {
+      return function (obj1, obj2) {
+          var val1 = obj1[prop];
+          var val2 = obj2[prop];
+          if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+              val1 = Number(val1);
+              val2 = Number(val2);
+          }
+          if (val1 < val2) {
+              return 1;
+          } else if (val1 > val2) {
+              return -1;
+          } else {
+              return 0;
+          }            
+      } 
+    }
+      wx.request({
+        url: 'http://localhost:8080/api/getAllBarber',
+        method: "GET",
+        success (res) {
+          if (res.statusCode == 200){
+            res.data.data.barberList.sort(compare("score"))
+            for (var i = 0; i < res.data.data.barberList.length; i++) {
+              var str = res.data.data.barberList[i].image
+              res.data.data.barberList[i].image = str.substring(str.indexOf("\\images")).replace(/\\/g,"/")
+            }
+          console.log(res.data.data.barberList)
+          app.globalData.barberList = res.data.data.barberList
+            that.setData({
+              serviceList: res.data.data.barberList,
+            })
+          }else{
+            wx.showToast({
+              title: "网络繁忙",
+              icon: 'error',
+              duration: 1000
+            })
+          }
+        },
+        fail (res){
+          wx.showToast({
+            title: "网络繁忙",
+            icon: 'error',
+            duration: 1000
+          })
+        }
+      })
   },
 
   /**

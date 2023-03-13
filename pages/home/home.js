@@ -16,7 +16,6 @@ Page({
     phone:12345678,
     name:'一剪梅',
     img_url:'/pages/images/理发店.png',
-    
   },
 
   /**
@@ -24,7 +23,6 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      contentInfo: this.data.recommend
     })
   },
 
