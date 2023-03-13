@@ -30,4 +30,6 @@ public interface WxApiService{
     boolean verifyBarber(JSONObject param);
 
     List<ActivityInfo> getActivity();
+
+    boolean verifyUser(JSONObject param);
 }

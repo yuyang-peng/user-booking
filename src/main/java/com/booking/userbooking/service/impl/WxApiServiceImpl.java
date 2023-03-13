@@ -1,5 +1,6 @@
 package com.booking.userbooking.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -44,6 +47,9 @@ public class WxApiServiceImpl implements WxApiService {
 
     @Autowired
     private BookInfoMapper bookInfoMapper;
+
+    @Autowired
+    private BookInfoService bookInfoService;
 
     @Autowired
     private ActivityInfoService activityInfoService;
@@ -172,5 +178,23 @@ public class WxApiServiceImpl implements WxApiService {
     @Override
     public List<ActivityInfo> getActivity() {
         return activityInfoService.lambdaQuery().list();
+    }
+
+    @Override
+    public boolean verifyUser(JSONObject param) {
+        String today = DateUtil.today() + " 00:00:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date beginDate = new Date();
+        try {
+            beginDate = sdf.parse(today);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        BookInfo bookInfo = JSONUtil.toBean(param,BookInfo.class);
+        List<BookInfo> list = bookInfoService.lambdaQuery()
+                .eq(BookInfo::getOpenId, bookInfo.getOpenId())
+                .eq(BookInfo::getBookingType, bookInfo.getBookingType())
+                .between(BookInfo::getCreateTime, beginDate, new Date()).list();
+        return list.size() <= 0;
     }
 }

@@ -157,7 +157,7 @@ public class WxApiController {
         rtn.putOnce("barberList",barberList);
         res.setCode(Constant.SUCCESS_RETUEN_CODE);
         res.setData(rtn);
-        log.info("---------执行getRecommendedProducts，res：" + res);
+        log.info("---------执行getAllBarber，res：" + res);
         return res;
     }
 
@@ -208,7 +208,7 @@ public class WxApiController {
         rtn.putOnce("barberSkillList",barberSkillList);
         res.setCode(Constant.SUCCESS_RETUEN_CODE);
         res.setData(rtn);
-        log.info("---------执行getRecommendBarber，res：" + res);
+        log.info("---------执行getSkillByBarberNo，res：" + res);
         return res;
     }
 
@@ -233,7 +233,7 @@ public class WxApiController {
             res.setCode(Constant.FAILURE_RETUEN_CODE);
             res.setMsg("评价失败");
         }
-        log.info("---------执行getRecommendBarber，res：" + res);
+        log.info("---------执行appraise，res：" + res);
         return res;
     }
 
@@ -248,22 +248,29 @@ public class WxApiController {
     public ResultObject<Object> insertBook(@RequestBody JSONObject param){
         ResultObject<Object> res = new ResultObject<>();
         log.info("---------------insertBook,param:"+param);
-        //先校验理发师是否可预约
-        boolean verify =  wxApiService.verifyBarber(param);
-        if (verify){
-            Integer insertBook = wxApiService.insertBook(param);
-            if (insertBook >0){
-                res.setCode(Constant.SUCCESS_RETUEN_CODE);
-                res.setMsg("预约成功");
-            }else {
-                res.setCode(Constant.FAILURE_RETUEN_CODE);
-                res.setMsg("预约");
-            }
-        }else {
+        //判断用户是否已经预约过
+        boolean verifyUser = wxApiService.verifyUser(param);
+        if (!verifyUser){
             res.setCode(Constant.HASE_RETUEN_CODE);
-            res.setMsg("当前理发师，当前时间段预约人数已满");
+            res.setMsg("您在当前时间段已经预约过");
+        }else{
+            //先校验理发师是否可预约
+            boolean verify =  wxApiService.verifyBarber(param);
+            if (verify){
+                Integer insertBook = wxApiService.insertBook(param);
+                if (insertBook >0){
+                    res.setCode(Constant.SUCCESS_RETUEN_CODE);
+                    res.setMsg("预约成功");
+                }else {
+                    res.setCode(Constant.FAILURE_RETUEN_CODE);
+                    res.setMsg("预约失败");
+                }
+            }else {
+                res.setCode(Constant.HASE_RETUEN_CODE);
+                res.setMsg("当前理发师，当前时间段预约人数已满");
+            }
         }
-        log.info("---------执行getRecommendBarber，res：" + res);
+        log.info("---------执行insertBook，res：" + res);
         return res;
     }
 
