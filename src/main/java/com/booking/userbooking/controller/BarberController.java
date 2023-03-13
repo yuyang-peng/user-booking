@@ -148,5 +148,22 @@ public class BarberController {
         return res;
     }
 
+    @ResponseBody
+    @RequestMapping("/updateAllBarberNum")
+    public ResultObject<Object> updateAllBarberNum(){
+        log.info("---------------进入updateAllBarberNum方法");
+        ResultObject<Object> res = new ResultObject<>();
+        boolean flag = barberInfoService.updateAllBarberNum();
+        if (!flag){
+            res.setCode(Constant.FAILURE_RETUEN_CODE);
+            res.setMsg("重置失败");
+        } else {
+            res.setCode(Constant.SUCCESS_RETUEN_CODE);
+            res.setMsg("重置成功");
+        }
+        log.info("---------------执行updateAllBarberNum方法  res:" + res);
+        return res;
+    }
+
 
 }

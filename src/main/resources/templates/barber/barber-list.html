@@ -36,8 +36,8 @@
 			</div>
 			<button class="layui-btn layui-btn-normal site-demo-active"
 					data-type="search" id="searchBarberInfo">搜索</button>
-<!--			<button class="layui-btn layui-btn-normal site-demo-active"-->
-<!--					data-type="export" id="exportBarberInfo" style="float: right;margin-right: 50px">导出</button>-->
+			<button class="layui-btn layui-btn-normal site-demo-active"
+					data-type="export" id="exportBarberInfo" style="float: right;margin-right: 50px">重置预约数量</button>
 <!--			<button class="layui-btn layui-btn-normal site-demo-active"-->
 <!--					id="addImage" style="float: right;margin-right: 50px">上传</button>-->
 			<table class="layui-table" lay-filter="mainTable" id="mainTable">
@@ -166,9 +166,27 @@
 						})
 				},
 				export : function (){
-					var data = $("#teacherNameSearch").val();
-					console.log(data)
-					location.href = "/Instructor/exportInstructor?data="+data;
+					$.ajax({
+						//几个参数需要注意一下
+						type: "POST",//方法类型
+						dataType: "json",//预期服务器返回的数据类型
+						url: "/barber/updateAllBarberNum",//url
+						success: function (result) {
+							if (result.code === "0") {
+								layer.msg(result.msg);
+								layui.table.reload('mainTable',{page:{curr:1}});
+							}else{
+								layer.msg(result.msg, {
+									icon: 5
+								});
+							}
+						},
+						error : function() {
+							layer.msg('服务器错误', {
+								icon: 5
+							});
+						}
+					});
 				},
 			};
 
