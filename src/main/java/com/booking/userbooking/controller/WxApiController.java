@@ -275,6 +275,26 @@ public class WxApiController {
     }
 
     /**
+     * 根据用户open_id获取
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getBookByOpenId")
+    public ResultObject<Object> getBookByOpenId(@RequestBody JSONObject param){
+        ResultObject<Object> res = new ResultObject<>();
+        log.info("---------------执行getBookByOpenId ，param："+param);
+        JSONObject rtn = new JSONObject();
+        String openId = param.getStr("openId");
+        BookInfo bookInfo = wxApiService.getBookByOpenId(openId);
+        rtn.putOnce("bookInfo",bookInfo);
+        res.setCode(Constant.SUCCESS_RETUEN_CODE);
+        res.setData(rtn);
+        log.info("---------执行getBookByOpenId，res：" + res);
+        return res;
+    }
+
+
+    /**
      * 获取活动
      * @return
      */

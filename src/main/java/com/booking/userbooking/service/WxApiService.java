@@ -27,6 +27,8 @@ public interface WxApiService{
 
     Integer insertBook(JSONObject param);
 
+    BookInfo getBookByOpenId(String openId);
+
     boolean verifyBarber(JSONObject param);
 
     List<ActivityInfo> getActivity();
