@@ -4,13 +4,13 @@
 
 <!-- 附近服务 -->
 <view class="serviceList">
-  <view wx:for="{{serviceList}}" wx:key="id" class="swiper_con" data-skillId="{{item.id}}" bindtap="toSkill">
+  <view wx:for="{{serviceList}}" wx:key="id" class="swiper_con" data-skillId="{{item.barberNo}}" bindtap="toSkill">
       <image class="dataImg" webp="True" src="http://localhost:8080{{item.image}}"></image>
       <view class="dataInfo">
         <text class="score">评分\n{{item.score}}</text>
-        <text class="name">姓名:{{item.barberName}}</text>
-        <text class="age">年龄:{{item.barberAge}}</text>
-        <text class="phone">phone:{{item.barberPhone}}</text>
+        <text class="name">{{item.barberName}}</text>
+        <text class="age">编号:{{item.barberNo}}</text>
+        <text class="phone">联系方式:{{item.barberPhone}}</text>
       </view>
     </view>
 </view>

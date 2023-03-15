@@ -72,6 +72,9 @@ Page({
           success (res) {
             if (res.statusCode == 200){
               if(res.data.msg == "预约成功"){
+                wx.redirectTo({
+                  url:"/pages/user/user"
+                })
                 wx.showToast({
                   title:res.data.msg,
                   icon:"success",

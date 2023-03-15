@@ -57,6 +57,8 @@ Page({
             for (var i = 0; i < res.data.data.barberList.length; i++) {
               var str = res.data.data.barberList[i].image
               res.data.data.barberList[i].image = str.substring(str.indexOf("\\images")).replace(/\\/g,"/")
+              res.data.data.barberList[i].barberName = res.data.data.barberList[i].barberName + "技师"
+              res.data.data.barberList[i].desc = "　" + res.data.data.barberList[i].barberName + ",今年" + res.data.data.barberList[i].barberAge + "岁,擅长洗剪吹,烫头染发等。\n联系电话: " + res.data.data.barberList[i].barberPhone + ",店内客户评分为: " + res.data.data.barberList[i].score
             }
           console.log(res.data.data.barberList)
           app.globalData.barberList = res.data.data.barberList

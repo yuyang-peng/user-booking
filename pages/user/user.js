@@ -6,10 +6,16 @@ Page({
    * 页面的初始数据
    */
   data: {
+    date:new Date().toJSON().substring(0, 10),
     userInfo:{
       nickName:"未知",
       gender:"未知",
       avatarUrl:"/pages/images/avatar.png",
+    },
+    bookInfo:{
+      // barberNo: "2",
+      // bookingType: 2,
+      // skillNo: "洗剪吹"
     },
     phone:"***********",
   },
@@ -19,6 +25,8 @@ Page({
    */
   onLoad: function (options) {
     var gender = ["未知","男","女"];
+    var bookingType = ["上午","下午"]
+    var that = this;
     if (app.globalData.userInfo != null){
       this.setData({
         userInfo: {
@@ -51,6 +59,37 @@ Page({
         })
       }
     })
+
+    wx.request({
+      url: 'http://localhost:8080/api/getBookByOpenId',
+      method: "POST",
+      data: {
+        openId: app.globalData.openId
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success (res) {
+        if (res.statusCode == 200){
+          if (JSON.stringify(res.data.data) != "{}" ){
+            res.data.data.bookInfo.bookingType = bookingType[res.data.data.bookInfo.bookingType - 1 ]
+            that.setData({
+              bookInfo: res.data.data.bookInfo
+            })
+          }else{
+            that.setData({
+              bookInfo: "暂未预约"
+            }) 
+          }
+        }else{
+          wx.showToast({
+            title: "网络繁忙",
+            icon: 'error',
+            duration: 1000
+          })
+        }
+      },
+    })
     
   },
   getUserProfile(e) {
@@ -80,7 +119,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**

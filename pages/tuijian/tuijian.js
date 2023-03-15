@@ -12,7 +12,8 @@ Page({
     interval:2000,
     vertical:false,
     indicatorDots:true,
-    imgUrls: ['/pages/images/banner_01.png', '/pages/images/banner_02.png', '/pages/images/banner_03.png','/pages/images/banner_04.png'],
+    activeList:[{
+    },],
     currentData:0,
     navTop:[{
       id: 0,
@@ -37,97 +38,23 @@ Page({
       }],
     contentList: ["recommend", "barber", "shampoo", "conditioner","other"],//获取所有选项卡类型
     contentInfo: "",//当前所选选项卡的数据
-        recommend:[{//推荐
-          id:0,
-          type:"barber",
-          imageUrl:"/pages/images/recommend_img_01.png",
-          title:"秋季自然特价美甲",
-          price:"198",
-          desc:"教你怎么做活得精致的小仙女",
-      }, {
-          id: 1,
-          type:"other",
-          imageUrl: "/pages/images/recommend_img_02.png",
-          title: "睫毛稀疏 种睫毛来帮忙",
-          price: "1888",
-          desc: "长而翘的睫毛，炯炯大眼",
-        },{
-          id: 2,
-          type: "shampoo",
-          imageUrl: "/pages/images/recommend_img_03.png",
-          title: "爱丽颗",
-          price: "1588",
-          desc: "我们追求的只有更好！",
-        },{
-          id: 3,
-          type:"conditioner",
-          imageUrl: "/pages/images/recommend_img_04.png",
-          title: "一本造型",
-          price: "198",
-          desc: "由著名的形象设计师杨XX",
-        }, {
-          id: 4,
-          type:"conditioner",
-          imageUrl: "/pages/images/recommend_img_05.png",
-          title: "潮流发型",
-          price: "236",
-          desc: "当下最时尚最潮流的发型",
-        }, {
-          id: 5,
-          type:"shampoo",
-          imageUrl: "/pages/images/recommend_img_06.png",
-          title: "画对了妆，你就是小仙女",
-          price: "198",
-          desc: "《微微一笑很倾城》剧照仿妆",
-        }],
-        barber: [{//美甲
-      id: 0,
-      imageUrl: "/pages/images/recommend_img_01.png",
-      title: "秋季自然特价美甲",
-      price: "198",
-      desc: "教你怎么做活得精致的小仙女",
-    }], 
-        shampoo: [{//美容
-      id: 2,
-      imageUrl: "/pages/images/recommend_img_03.png",
-      title: "爱丽颗",
-      price: "1588",
-      desc: "我们追求的只有更好！",
-    }, {
-        id: 5,
-        imageUrl: "/pages/images/recommend_img_06.png",
-        title: "画对了妆，你就是小仙女",
-        price: "198",
-        desc: "《微微一笑很倾城》剧照仿妆",
-      }], 
-        conditioner: [{//美发
-        id: 3,
-        imageUrl: "/pages/images/recommend_img_04.png",
-        title: "一本造型",
-        price: "198",
-        desc: "由著名的形象设计师杨XX",
-      }, {
-          id: 4,
-          imageUrl: "/pages/images/recommend_img_05.png",
-          title: "潮流发型",
-          price: "236",
-          desc: "当下最时尚最潮流的发型",
-        }], 
-        other: [{//美睫
-      id: 1,
-      imageUrl: "/pages/images/recommend_img_02.png",
-      title: "睫毛稀疏 种睫毛来帮忙",
-      price: "1888",
-      desc: "长而翘的睫毛，炯炯大眼",
-    }]
+        recommend:[],
+        barber: [], 
+        shampoo: [], 
+        conditioner: [], 
+        other: []
   },
-  //切换到预约界面 
+  //切换到详情界面 
   toAppointment:function(e){
-    console.log();
-    const index = e.currentTarget.dataset.toindex;
-    wx.navigateTo({
-      url: '/pages/appointment/appointment?index='+index,
-    })
+    const barberNo = e.currentTarget.dataset.barberno;
+    const type = e.currentTarget.dataset.type;
+    console.log("当前点击类型及其no为："+type+barberNo);
+    app.globalData.barberNo= barberNo
+    if (type == 'barber'){
+      wx.navigateTo({
+        url:"/pages/skill/skillDetail/skillDetail"
+      })
+    }
   },
   checkCurrent:function(e){
     const that = this;
@@ -135,7 +62,7 @@ Page({
         return false
     }else{
       var array = this.data.contentList[e.currentTarget.dataset.current];
-    
+
       that.setData({
         currentData: e.currentTarget.dataset.current,
         contentInfo: this.data[array] 
@@ -146,17 +73,60 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var barber = null;
+    let shampoo = [];
+    let conditioner = [];
+    let other = [];
     var that = this;
+    //获取活动
+    wx.request({
+          url: 'http://localhost:8080/api/getActivity',
+          method: "GET",
+          success (res) {
+            console.log()
+            if (res.statusCode == 200){
+              for (var i = 0; i < res.data.data.activeList.length; i++) {
+                var str = res.data.data.activeList[i].image
+                res.data.data.activeList[i].image = str.substring(str.indexOf("\\images")).replace(/\\/g,"/")
+              }
+            that.setData({
+              activeList:res.data.data.activeList
+            })
+            }else{
+              wx.showToast({
+                title: "网络繁忙",
+                icon: 'error',
+                duration: 1000
+              })
+            }
+          },
+          fail (res){
+            wx.showToast({
+              title: "网络繁忙",
+              icon: 'error',
+              duration: 1000
+            })
+          }
+    })
+    //获取推荐技师
     wx.request({
       url: 'http://localhost:8080/api/getRecommendBarber',
       method: "GET",
       success (res) {
         if (res.statusCode == 200){
-        barber = res.data.data.barberList
-        that.setData({
-          barber: res.data.data.barberList,
-        })
+          for (var i = 0; i < res.data.data.barberList.length; i++) {
+            var str = res.data.data.barberList[i].image
+            res.data.data.barberList[i].image = str.substring(str.indexOf("\\images")).replace(/\\/g,"/")
+            res.data.data.barberList[i].name = res.data.data.barberList[i].barberName + '技师'
+            res.data.data.barberList[i].no = res.data.data.barberList[i].barberNo 
+            res.data.data.barberList[i].type = "barber"
+            res.data.data.barberList[i].desc = res.data.data.barberList[i].name + "今年: " + res.data.data.barberList[i].barberAge + "岁,擅长洗剪吹,烫头染发等,联系电话: " + res.data.data.barberList[i].barberPhone + ",店内客户评分为: " + res.data.data.barberList[i].score
+          }
+          app.globalData.barberList = res.data.data.barberList
+          that.setData({
+            recommend: that.data.recommend.concat(res.data.data.barberList),
+            contentInfo: that.data.recommend.concat(res.data.data.barberList),
+            barber: res.data.data.barberList
+          })
         }else{
           wx.showToast({
             title: "网络繁忙",
@@ -173,15 +143,36 @@ Page({
         })
       }
     })
+    //获取推荐商品
     wx.request({
-      url: 'http://localhost:8080/api/getActivity',
+      url: 'http://localhost:8080/api/getRecommendedProducts',
       method: "GET",
       success (res) {
         if (res.statusCode == 200){
-        barber = res.data.data.barberList
-        that.setData({
-          barber: res.data.data.barberList,
-        })
+          for (var i = 0; i < res.data.data.commodityList.length; i++) {
+            var str = res.data.data.commodityList[i].image
+            res.data.data.commodityList[i].image = str.substring(str.indexOf("\\images")).replace(/\\/g,"/")
+            res.data.data.commodityList[i].name = res.data.data.commodityList[i].recommendCommodityName
+            res.data.data.commodityList[i].no = res.data.data.commodityList[i].recommendCommodityNo 
+            res.data.data.commodityList[i].desc = "推荐理发师编号为："+res.data.data.commodityList[i].createId
+            if (res.data.data.commodityList[i].name.indexOf("洗发") > 0){
+              res.data.data.commodityList[i].type = "shampoo"
+              shampoo.push(res.data.data.commodityList[i])
+            } else if(res.data.data.commodityList[i].name.indexOf("护发") > 0){
+              res.data.data.commodityList[i].type = "conditioner"
+              conditioner.push(res.data.data.commodityList[i])
+            }else{
+              res.data.data.commodityList[i].type = "other"
+              other.push(res.data.data.commodityList[i])
+            }
+          }
+          that.setData({
+            recommend:that.data.recommend.concat(shampoo,conditioner,other),
+            contentInfo: that.data.recommend.concat(shampoo,conditioner,other),
+            shampoo: shampoo,
+            conditioner: conditioner,
+            other: other
+          })
         }else{
           wx.showToast({
             title: "网络繁忙",

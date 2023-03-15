@@ -8,12 +8,12 @@ Page({
    */
   data: {
     service: {
-      id: 0,
-      barberName: "彭技师",
-      barberAge:"22",
-      barberPhone:"18062790665",
-      image: "/pages/images/skilledt_img_01.png",
-      score: 5,
+      // id: 0,
+      // barberName: "彭技师",
+      // barberAge:"22",
+      // barberPhone:"18062790665",
+      // image: "/pages/images/skilledt_img_01.png",
+      // score: 5,
     },
     skillList:[
       // {
@@ -40,7 +40,8 @@ Page({
     var that = this
     if (barberNo != null && barberList != null){
       for (var i = 0; i < barberList.length; i++) {
-        if (barberList[i].id == barberNo){
+        if (barberList[i].barberNo == barberNo){
+          console.log(barberList[i])
           app.globalData.barber = barberList[i]
           wx.request({
             url: 'http://localhost:8080/api/getSkillByBarberNo',

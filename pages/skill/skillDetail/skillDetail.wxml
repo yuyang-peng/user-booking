@@ -4,7 +4,7 @@
 </view>
 <view>
   <text class="name">{{service.barberName}}技师</text>
-  <text class="desc">{{service.barberName}}技师今年{{service.barberAge}}岁,ta的手机号为{{service.barberPhone}},ta在本店的评分为{{service.score}}</text>
+  <text class="desc">{{service.desc}}</text>
   <view class="contentList"> 
     <text class="title borderBootom">【服务内容】</text>
     <view>
