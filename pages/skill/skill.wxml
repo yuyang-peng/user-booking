@@ -1,6 +1,6 @@
 <!--pages/skill/skill.wxml-->
 <!-- 搜索框 -->
-<input confirm-type="search" value="" placeholder="请输入想要搜索的理发师" class="searchInput"></input>
+<!-- <input confirm-type="search" value="" placeholder="请输入想要搜索的理发师" class="searchInput"></input> -->
 
 <!-- 附近服务 -->
 <view class="serviceList">
