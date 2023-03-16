@@ -88,13 +88,34 @@ public class WxApiController {
     @PostMapping("/wxLogin")
     public ResultObject<Object> login(@RequestBody JSONObject param) {
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + Constant.APPID + "&secret=" + Constant.APPSECRET
-                + "&js_code=" + param.getStr("code") + "&grant_type=authorization_code";
+                + "&js_code=" + param.getStr("jsCode") + "&grant_type=authorization_code";
         RestTemplate restTemplate = new RestTemplate();
         JSONObject rtn = new JSONObject();
         ResultObject<Object> res = new ResultObject<>();
+        String access_token = getAccessToken();
+        if (access_token == "error"){
+            res.setCode(Constant.FAILURE_RETUEN_CODE);
+            res.setMsg("获取access_token失败,请联系管理员");
+            log.info(res.toString());
+            return res;
+        }
+        String url2 = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=" + access_token ;
+        //        设置请求参数
+        HashMap<String, Object> map = new HashMap<>();
+        String code = param.getStr("code");
+        map.put("code", code);
+        JSONObject jsonObject2 = restTemplate.postForObject(url2, map, JSONObject.class);
+        if (!"0".equals(jsonObject2.getStr("errcode"))){
+            res.setCode(Constant.FAILURE_RETUEN_CODE);
+            res.setMsg(jsonObject2.getStr("errmsg"));
+            log.info(res.toString());
+            return res;
+        }
+        String phone = JSONUtil.parseObj(jsonObject2.getStr("phone_info")).getStr("phoneNumber");
+        rtn.putOnce("phone", phone);
         String result = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = JSONUtil.parseObj(result);
-        if (!"0".equals(jsonObject.getStr("errcode")) ){
+        if (jsonObject.containsKey("errcode")){
             res.setCode(Constant.FAILURE_RETUEN_CODE);
             res.setMsg(jsonObject.getStr("errmsg"));
             log.info(res.toString());
@@ -104,8 +125,8 @@ public class WxApiController {
         rtn.putOnce("openId", wxInfo.getOpenid());
         //插入user表
         UserInfo userInfo = new UserInfo();
-//        userInfo.setPhone(JSONUtil.parseObj(jsonObject_p.getStr("phone_info")).getStr("phoneNumber"));
         userInfo.setOpenId(wxInfo.getOpenid());
+        userInfo.setPhone(phone);
         wxApiService.insertUserInfo(userInfo);
         res.setCode(Constant.SUCCESS_RETUEN_CODE);
         res.setData(rtn);
@@ -275,7 +296,7 @@ public class WxApiController {
     }
 
     /**
-     * 根据用户open_id获取
+     * 根据用户open_id获取预约信息
      * @return
      */
     @ResponseBody
