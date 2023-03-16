@@ -14,6 +14,7 @@ import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -165,9 +166,11 @@ public class WxApiServiceImpl implements WxApiService {
 
     @Override
     public BookInfo getBookByOpenId(String openId) {
-        BookInfo bookInfo = bookInfoService.lambdaQuery()
+        List<BookInfo> list = bookInfoService.lambdaQuery()
                 .eq(BookInfo::getOpenId, openId)
-                .one();
+                .orderByDesc(BookInfo::getCreateTime)
+                .list();
+        BookInfo bookInfo = list.get(0);
         if (!ObjectUtil.isEmpty(bookInfo)){
             bookInfo.setSkillNo(barberSkillService.lambdaQuery().eq(BarberSkill::getSkillNo, bookInfo.getSkillNo()).one().getSkillName());
         }
