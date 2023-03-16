@@ -6,14 +6,14 @@ Page({
   data: {
     motto: '欢迎来到美容专题',
     userInfo: {},
-    phoneInfo:{},
+    phone:null,
     hasPhone:false,
     hasUserInfo: false,
     canIUseGetUserProfile: false,
   },
   //事件处理函数
   toHome:function(){
-    if (JSON.stringify(this.data.phoneInfo) == "{}" ){
+    if (this.data.phone == null ){
       wx.showToast({
         title: "请先登录",
         icon: 'error',
@@ -56,29 +56,39 @@ Page({
   //获取用户手机号
   getPhoneNumber (e) {
     var that = this
-    console.log(e.detail.code)
     wx.request({
-      url: 'http://localhost:8080/api/wxGetPhone',
+      url: 'http://localhost:8080/api/wxLogin',
       method: "POST",
       data: {
         code: e.detail.code,
-        openId:app.globalData.openId
+        jsCode:app.globalData.jsCode
       },
       header: {
         'content-type': 'application/json' // 默认值
       },
       success (res) {
-        if (res.statusCode == 200){
-          app.globalData.phoneInfo = res.data.data
-          that.setData({
-              phoneInfo: res.data.data,
-              hasPhone: true
-          })
-          wx.showToast({
-            title: "登陆成功",
-            icon: 'success',
-            duration: 500
-          })
+        if (res.statusCode == 200 ) {
+          if (res.data.code == 0){
+            console.log(res)
+            app.globalData.phone = res.data.data.phone
+            app.globalData.openId = res.data.data.openId
+            that.setData({
+                phone: res.data.data.phone,
+                hasPhone: true
+            })
+            wx.showToast({
+              title: "登陆成功",
+              icon: 'success',
+              duration: 500
+            })
+          }else{
+            wx.showToast({
+              title: res.data.msg,
+              icon: 'success',
+              duration: 500
+            })
+          }
+
         }else{
           wx.showToast({
             title: "网络繁忙",

@@ -11,6 +11,10 @@
   font-size: 20px;
   padding:20rpx;
 }
+.bookInfo>rating{
+  display: block;
+  padding-left:23%;
+}
 .userInfo{
   display: flex;
   text-align: center;

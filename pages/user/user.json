@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "rating":"/components/rating/index"
+  },
   "navigationBarTitleText": "个人信息中心"
 }

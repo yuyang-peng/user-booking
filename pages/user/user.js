@@ -35,9 +35,9 @@ Page({
           avatarUrl: app.globalData.userInfo.avatarUrl,
         },
     })}
-    if (app.globalData.phoneInfo != null){
+    if (app.globalData.phone != null){
       this.setData({
-        phone:app.globalData.phoneInfo.phone,
+        phone:app.globalData.phone,
     })}
     // 获取用户信息
     wx.getUserProfile({
@@ -73,6 +73,7 @@ Page({
         if (res.statusCode == 200){
           if (JSON.stringify(res.data.data) != "{}" ){
             res.data.data.bookInfo.bookingType = bookingType[res.data.data.bookInfo.bookingType - 1 ]
+            app.globalData.barberNo = res.data.data.bookInfo.barberNo
             that.setData({
               bookInfo: res.data.data.bookInfo
             })

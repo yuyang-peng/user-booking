@@ -9,7 +9,7 @@ App({
     // 登录
     wx.login({
       success: res => {
-        this.globalData.openId = res.code
+        this.globalData.jsCode = res.code
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
@@ -36,8 +36,9 @@ App({
   },
   globalData: {
     userInfo: null,
-    phoneInfo:null,
+    phone:null,
     openId:null,
+    jsCode:null,
     barberNo:null, //被选中的理发师No
     barberList:null,
     skillNo:null,  //被选中的技能
