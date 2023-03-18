@@ -61,7 +61,7 @@ public class ActivityInfoServiceImpl extends ServiceImpl<ActivityInfoMapper, Act
     }
 
     @Override
-    public int editActivity(AddBarberParam param, BarberInfo barberInfo) {
+    public int editActivity(AddActivityParam param, BarberInfo barberInfo) {
         ActivityInfo activityInfo = BeanUtil.copyProperties(param, ActivityInfo.class);
         activityInfo.setUpdateId(barberInfo.getBarberNo());
         activityInfo.setUpdateTime(new Date());

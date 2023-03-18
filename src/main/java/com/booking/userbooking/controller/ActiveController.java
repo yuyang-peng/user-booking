@@ -91,7 +91,7 @@ public class ActiveController {
 
     @ResponseBody
     @RequestMapping("/editActivity")
-    public ResultObject<Object> editActivity(AddBarberParam param,HttpServletRequest request){
+    public ResultObject<Object> editActivity(AddActivityParam param,HttpServletRequest request){
         log.info("---------------进入editActivity方法 param:" + param);
         BarberInfo barberInfo = (BarberInfo) request.getSession().getAttribute("barber");
         ResultObject<Object> res = new ResultObject<>();

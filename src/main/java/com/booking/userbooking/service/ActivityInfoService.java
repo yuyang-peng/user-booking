@@ -24,7 +24,7 @@ public interface ActivityInfoService extends IService<ActivityInfo> {
 
     int addActivity(AddActivityParam param, BarberInfo barberInfo);
 
-    int editActivity(AddBarberParam param, BarberInfo barberInfo);
+    int editActivity(AddActivityParam param, BarberInfo barberInfo);
 
     Integer deleteActivityByActivityNo(String activityNo);
 

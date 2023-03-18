@@ -114,6 +114,7 @@
                 update_time = #{updateTime},
             </if>
         </set>
+            where activity_no = #{activityNo}
     </update>
 
     <delete id="deleteActivityByActivityNo">
