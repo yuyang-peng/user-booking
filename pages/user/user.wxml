@@ -13,6 +13,12 @@
 </view>
 <view >
   <text class="text-center">【预约列表】</text>
+  <view wx:if="{{!hasPhone}}" class="text-center">
+    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+          登录查看预约信息
+        </button>
+  </view>
+  <view wx:else class="text-center">
     <view wx:if="{{bookInfo == '暂未预约'}}" class="text-center">
       <text>{{bookInfo}}</text>
     </view>
@@ -23,4 +29,6 @@
       <text> 请为ta评分 </text>
       <rating rating="0" bind:click="change" ></rating>
     </view>
+  </view>
+
 </view>

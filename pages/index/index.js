@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    motto: '欢迎来到美容专题',
+    motto: '点击进入美发主页',
     userInfo: {},
     phone:null,
     hasPhone:false,
@@ -13,17 +13,17 @@ Page({
   },
   //事件处理函数
   toHome:function(){
-    if (this.data.phone == null ){
-      wx.showToast({
-        title: "请先登录",
-        icon: 'error',
-        duration: 1000
-      })
-    }else{
+    // if (this.data.phone == null ){
+    //   wx.showToast({
+    //     title: "请先登录",
+    //     icon: 'error',
+    //     duration: 1000
+    //   })
+    // }else{
       wx.reLaunch({
         url: '/pages/home/home',
       })
-    }
+    // }
 
   },
   bindViewTap: function() {
@@ -84,7 +84,7 @@ Page({
           }else{
             wx.showToast({
               title: res.data.msg,
-              icon: 'success',
+              icon: 'error',
               duration: 500
             })
           }

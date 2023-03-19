@@ -6,10 +6,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    date:new Date().toJSON().substring(0, 10),
+    date:new Date(new Date().getTime()+24*60*60*1000).toJSON().substring(0, 10),
     userInfo:{
-      nickName:"未知",
-      gender:"未知",
+      nickName:"点击头像授权",
+      gender:"点击头像授权",
       avatarUrl:"/pages/images/avatar.png",
     },
     bookInfo:{
@@ -17,7 +17,9 @@ Page({
       // bookingType: 2,
       // skillNo: "洗剪吹"
     },
-    phone:"***********",
+    phone:"暂未授权",
+    openId:app.globalData.openId,
+    hasPhone:false,
   },
 
   /**
@@ -39,6 +41,11 @@ Page({
       this.setData({
         phone:app.globalData.phone,
     })}
+    if(app.globalData.openId !=null){
+      this.setData({
+        hasPhone: true,
+        })
+    }
     // 获取用户信息
     wx.getUserProfile({
       success: function (res) {
@@ -94,7 +101,7 @@ Page({
     
   },
   getUserProfile(e) {
-    if (this.data.userInfo.nickName == "未知"){
+    if (this.data.userInfo.nickName == "点击头像授权"){
       wx.getUserProfile({
         desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: (res) => {
@@ -109,6 +116,65 @@ Page({
       })
     }
   },
+    //获取用户手机号
+    getPhoneNumber (e) {
+      var that = this
+      wx.request({
+        url: 'http://localhost:8080/api/wxLogin',
+        method: "POST",
+        data: {
+          code: e.detail.code,
+          jsCode:app.globalData.jsCode
+        },
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success (res) {
+          if (res.statusCode == 200 ) {
+            if (res.data.code == 0){
+              app.globalData.phone = res.data.data.phone
+              app.globalData.openId = res.data.data.openId
+              that.setData({
+                  phone: res.data.data.phone,
+              })
+              wx.showToast({
+                title:"登陆成功",
+                icon:"success",
+                duration:500,
+                success: function () {
+                  setTimeout(function () {
+                    wx.redirectTo({
+                      url:"/pages/user/user"
+                    })
+                  }, 500);
+                 }
+              })
+            }else{
+              wx.showToast({
+                title: res.data.msg,
+                icon: 'error',
+                duration: 500
+              })
+            }
+          }else{
+            wx.showToast({
+              title: "网络繁忙",
+              icon: 'error',
+              duration: 500
+            })
+          }
+          
+        },
+        fail (res){
+          wx.showToast({
+            title: "网络繁忙",
+            icon: 'error',
+            duration: 2000
+          })
+        }
+      })
+  
+    },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

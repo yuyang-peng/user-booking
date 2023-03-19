@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    date:new Date().toJSON().substring(0, 10),
+    date:new Date(new Date().getTime()+24*60*60*1000).toJSON().substring(0, 10),
     time:0,
     // range:['上午','下午'],
     // morningBookingNum:5,
@@ -23,7 +23,7 @@ Page({
     var hour = new Date().toTimeString().substring(0,2);
     console.log(barber)
     if (barber != null && index != null){
-      if (barber.morningBookingNum > 0 && hour<12){
+      if (barber.morningBookingNum){
         range.push("上午")
       }
       if (barber.afternoonBookingNum > 0){
@@ -51,58 +51,78 @@ Page({
   formsubmit:function(e){
     var time = e.detail.value.time;
     var bookingType = null;
-    if (!time == ''){
-      if (time == "上午"){
-         bookingType = 1
-        }else{
-          bookingType = 2
-        }
-        wx.request({
-          url: 'http://localhost:8080/api/insertBook',
-          method: "POST",
-          data: {
-            barberNo:app.globalData.barberNo,
-            bookingType: bookingType,
-            skillNo:app.globalData.skillNo,
-            openId:app.globalData.openId,
-          },
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success (res) {
-            if (res.statusCode == 200){
-              if(res.data.msg == "预约成功"){
-                wx.redirectTo({
-                  url:"/pages/user/user"
-                })
-                wx.showToast({
-                  title:res.data.msg,
-                  icon:"success",
-                  duration:1000
-                })
+    if (app.globalData.openId == null){
+      wx.showToast({
+        title:"请先登录!",
+        icon:"error",
+        duration:500,
+        success: function () {
+          setTimeout(function () {
+            wx.redirectTo({
+              url:"/pages/index/index"
+            })
+          }, 500);
+         }
+      })
+    }else{
+      if (time == '上午' || time == '下午' ){
+        if (time == "上午"){
+           bookingType = 1
+          }else{
+            bookingType = 2
+          }
+          wx.request({
+            url: 'http://localhost:8080/api/insertBook',
+            method: "POST",
+            data: {
+              barberNo:app.globalData.barberNo,
+              bookingType: bookingType,
+              skillNo:app.globalData.skillNo,
+              openId:app.globalData.openId,
+            },
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success (res) {
+              if (res.statusCode == 200){
+                if(res.data.msg == "预约成功"){        
+                  wx.showToast({
+                    title:res.data.msg,
+                    icon:"success",
+                    duration:500,
+                    success: function () {
+                      setTimeout(function () {
+                        wx.redirectTo({
+                          url:"/pages/user/user"
+                        })
+                      }, 500);
+                     }
+                  })
+                }else{
+                  wx.showToast({
+                    title:res.data.msg,
+                    icon:"none",
+                    duration:1000
+                  })
+                }
               }else{
                 wx.showToast({
-                  title:res.data.msg,
-                  icon:"none",
-                  duration:1000
+                  title: "提交失败",
+                  icon: 'error',
+                  duration: 1000
                 })
               }
-            }else{
-              wx.showToast({
-                title: "提交失败",
-                icon: 'error',
-                duration: 1000
-              })
-            }
-          },
+            },
+          })
+      }else{
+        wx.showToast({
+          title:"提交失败",
+          icon:"error",
+          duration:1000
         })
-    }else{
-      wx.showToast({
-        title:"提交失败",
-        icon:"error",
-        duration:1000
-      })
+      }
     }
+
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
