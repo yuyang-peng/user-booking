@@ -183,8 +183,8 @@ public class WxApiServiceImpl implements WxApiService {
         BarberInfo barberInfo = barberInfoService.lambdaQuery()
                 .eq(BarberInfo::getBarberNo, barberNo)
                 .one();
-        String bookingType = param.getStr("bookingType");
-        if ("1".equals(bookingType)){
+        Integer bookingType = param.getInt("bookingType");
+        if (bookingType < 5){
             return barberInfo.getMorningBookingNum() > 0 ;
         }else {
             return barberInfo.getAfternoonBookingNum() > 0;
@@ -209,7 +209,6 @@ public class WxApiServiceImpl implements WxApiService {
         BookInfo bookInfo = JSONUtil.toBean(param,BookInfo.class);
         List<BookInfo> list = bookInfoService.lambdaQuery()
                 .eq(BookInfo::getOpenId, bookInfo.getOpenId())
-                .eq(BookInfo::getBookingType, bookInfo.getBookingType())
                 .between(BookInfo::getCreateTime, beginDate, new Date()).list();
         return list.size() <= 0;
     }

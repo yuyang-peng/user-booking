@@ -273,7 +273,7 @@ public class WxApiController {
         boolean verifyUser = wxApiService.verifyUser(param);
         if (!verifyUser){
             res.setCode(Constant.HASE_RETUEN_CODE);
-            res.setMsg("您在当前时间段已经预约过");
+            res.setMsg("您已经预约过,请勿重复预约");
         }else{
             //先校验理发师是否可预约
             boolean verify =  wxApiService.verifyBarber(param);

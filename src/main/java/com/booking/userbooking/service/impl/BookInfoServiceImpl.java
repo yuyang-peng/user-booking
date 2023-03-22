@@ -42,10 +42,10 @@ public class BookInfoServiceImpl extends ServiceImpl<BookInfoMapper, BookInfo>
             calendar.add(Calendar.DATE, 1);
             // 这个时间就是日期往后推一天的结果
             Date onlyTime = calendar.getTime();
-            if (1 ==bookInfoVo.getBookingType()){
-                bookInfoVo.setBookingTime(sdf.format(onlyTime) + "-" + "上午");
+            if (bookInfoVo.getBookingType() < 5){
+                bookInfoVo.setBookingTime(sdf.format(onlyTime) + "-" + "上午" + "-" + Constant.BOOKING_TYPE_TO_TIME.get(bookInfoVo.getBookingType()));
             }else {
-                bookInfoVo.setBookingTime(sdf.format(onlyTime) + "-" + "下午");
+                bookInfoVo.setBookingTime(sdf.format(onlyTime) + "-" + "下午" + "-" + Constant.BOOKING_TYPE_TO_TIME.get(bookInfoVo.getBookingType()));
             }
         }
         return new PageInfo<>(bookInfoVos);

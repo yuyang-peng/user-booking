@@ -1,5 +1,8 @@
 package com.booking.userbooking.util;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * @author jiaze.chen
  */
@@ -38,6 +41,19 @@ public class Constant {
     public static String APPID= "wxec15cb622338dfea";
 
     public static String APPSECRET= "552652553c6fe1b53204f3228c5ff7f9";
+
+    public static final Map<Integer, String> BOOKING_TYPE_TO_TIME = new LinkedHashMap<Integer, String>(){
+        {
+            put(1, "8:00:00-9:00:00");
+            put(2, "9:00:00-10:00:00");
+            put(3, "10:00:00-11:00:00");
+            put(4, "11:00:00-12:00:00");
+            put(5, "14:00:00-15:00:00");
+            put(6, "15:00:00-16:00:00");
+            put(7, "16:00:00-17:00:00");
+            put(8, "17:00:00-18:00:00");
+        }
+    };
 
 
 
