@@ -50,12 +50,6 @@
           "scene": null
         },
         {
-          "name": "pages/addAddress/addAddress",
-          "pathName": "pages/addAddress/addAddress",
-          "query": "",
-          "scene": null
-        },
-        {
           "name": "pages/appointment/appointment",
           "pathName": "pages/appointment/appointment",
           "query": "",

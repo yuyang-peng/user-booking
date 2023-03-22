@@ -8,7 +8,7 @@
       <image class="dataImg" webp="True" src="http://localhost:8080{{item.image}}"></image>
       <view class="dataInfo">
         <text class="score">评分\n{{item.score}}</text>
-        <text class="name">{{item.barberName}}</text>
+        <text class="name">{{item.barberName}}技师</text>
         <text class="age">编号:{{item.barberNo}}</text>
         <text class="phone">联系方式:{{item.barberPhone}}</text>
       </view>

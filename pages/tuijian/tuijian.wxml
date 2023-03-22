@@ -27,7 +27,8 @@
       <view data-barberNo='{{item.no}}' data-type='{{item.type}}'  bindtap="toAppointment">
         <image class="dataImg" src="http://localhost:8080{{item.image}}"></image>
         <view class="dataInfo">
-          <text class="title">{{item.name}}</text>
+          <text wx:if="{{item.type == 'barber'}}" class="title">{{item.name}}技师</text>
+          <text wx:else class="title">{{item.name}}</text>
           <text class="price">编号：{{item.no}}</text>
           <text class="desc">{{item.desc}}</text>
         </view>

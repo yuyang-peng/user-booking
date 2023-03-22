@@ -2,13 +2,12 @@
 <view class="container">
 
 <!--登录弹窗-->
-<view class="container">
   <view class="userinfo">
     <block wx:if="{{hasPhone}}">
         <block wx:if="{{!hasUserInfo}}">
           <button wx:if="{{canIUseGetUserProfile}}" 
           open-type="getUserInfo"
-          bindtap="getUserProfile"> 获取头像昵称 </button>
+          bindtap="getUserProfile" style="width:100%"> 获取头像昵称 </button>
         </block>
         <block wx:else>
           <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
@@ -16,13 +15,12 @@
         </block>
     </block>
     <block wx:else>
-        <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+        <button style="width:100%" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
           微信用户一键登陆
         </button>
     </block>
 
   </view>
-</view>
 
   <view class="usermotto">
     <text class="user-motto" bindtap="toHome">{{motto}}</text>

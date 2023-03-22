@@ -78,6 +78,7 @@ Page({
       },
       success (res) {
         if (res.statusCode == 200){
+          console.log(res)
           if (JSON.stringify(res.data.data) != "{}" ){
             res.data.data.bookInfo.bookingType = bookingType[res.data.data.bookInfo.bookingType - 1 ]
             app.globalData.barberNo = res.data.data.bookInfo.barberNo
@@ -119,6 +120,7 @@ Page({
     //获取用户手机号
     getPhoneNumber (e) {
       var that = this
+      var bookingType = ["8:00-9:00","9:00-10:00","10:00-11:00","11:00-12:00","14:00-15:00","15:00-16:00","16:00-17:00","17:00-18:00"]
       wx.request({
         url: 'http://localhost:8080/api/wxLogin',
         method: "POST",
@@ -136,18 +138,38 @@ Page({
               app.globalData.openId = res.data.data.openId
               that.setData({
                   phone: res.data.data.phone,
+                  hasPhone:true,
               })
-              wx.showToast({
-                title:"登陆成功",
-                icon:"success",
-                duration:500,
-                success: function () {
-                  setTimeout(function () {
-                    wx.redirectTo({
-                      url:"/pages/user/user"
+              wx.request({
+                url: 'http://localhost:8080/api/getBookByOpenId',
+                method: "POST",
+                data: {
+                  openId: app.globalData.openId
+                },
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success (res) {
+                  if (res.statusCode == 200){
+                    if (JSON.stringify(res.data.data) != "{}" ){
+                      res.data.data.bookInfo.bookingType = bookingType[res.data.data.bookInfo.bookingType - 1 ]
+                      app.globalData.barberNo = res.data.data.bookInfo.barberNo
+                      that.setData({
+                        bookInfo: res.data.data.bookInfo
+                      })
+                    }else{
+                      that.setData({
+                        bookInfo: "暂未预约"
+                      }) 
+                    }
+                  }else{
+                    wx.showToast({
+                      title: "网络繁忙",
+                      icon: 'error',
+                      duration: 1000
                     })
-                  }, 500);
-                 }
+                  }
+                },
               })
             }else{
               wx.showToast({

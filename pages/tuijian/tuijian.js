@@ -116,10 +116,10 @@ Page({
           for (var i = 0; i < res.data.data.barberList.length; i++) {
             var str = res.data.data.barberList[i].image
             res.data.data.barberList[i].image = str.substring(str.indexOf("\\images")).replace(/\\/g,"/")
-            res.data.data.barberList[i].name = res.data.data.barberList[i].barberName + '技师'
+            res.data.data.barberList[i].name = res.data.data.barberList[i].barberName
             res.data.data.barberList[i].no = res.data.data.barberList[i].barberNo 
             res.data.data.barberList[i].type = "barber"
-            res.data.data.barberList[i].desc = res.data.data.barberList[i].name + "今年: " + res.data.data.barberList[i].barberAge + "岁,擅长洗剪吹,烫头染发等,联系电话: " + res.data.data.barberList[i].barberPhone + ",店内客户评分为: " + res.data.data.barberList[i].score
+            res.data.data.barberList[i].desc = res.data.data.barberList[i].name + "技师,今年: " + res.data.data.barberList[i].barberAge + "岁,擅长洗剪吹,烫头染发等,联系电话: " + res.data.data.barberList[i].barberPhone + ",店内客户评分为: " + res.data.data.barberList[i].score
           }
           app.globalData.barberList = res.data.data.barberList
           that.setData({
@@ -155,10 +155,10 @@ Page({
             res.data.data.commodityList[i].name = res.data.data.commodityList[i].recommendCommodityName
             res.data.data.commodityList[i].no = res.data.data.commodityList[i].recommendCommodityNo 
             res.data.data.commodityList[i].desc = "推荐理发师编号为："+res.data.data.commodityList[i].createId
-            if (res.data.data.commodityList[i].name.indexOf("洗发") > 0){
+            if (res.data.data.commodityList[i].name.indexOf("洗发") > -1){
               res.data.data.commodityList[i].type = "shampoo"
               shampoo.push(res.data.data.commodityList[i])
-            } else if(res.data.data.commodityList[i].name.indexOf("护发") > 0){
+            } else if(res.data.data.commodityList[i].name.indexOf("护发") > -1){
               res.data.data.commodityList[i].type = "conditioner"
               conditioner.push(res.data.data.commodityList[i])
             }else{

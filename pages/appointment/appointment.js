@@ -8,6 +8,7 @@ Page({
   data: {
     date:new Date(new Date().getTime()+24*60*60*1000).toJSON().substring(0, 10),
     time:0,
+    all_range:["8:00-9:00","9:00-10:00","10:00-11:00","11:00-12:00","14:00-15:00","15:00-16:00","16:00-17:00","17:00-18:00"]
     // range:['上午','下午'],
     // morningBookingNum:5,
     // afternoonBookingNum:5,
@@ -21,13 +22,12 @@ Page({
     var index = app.globalData.skillNo;
     var range = [];
     var hour = new Date().toTimeString().substring(0,2);
-    console.log(barber)
     if (barber != null && index != null){
       if (barber.morningBookingNum){
-        range.push("上午")
+        range.push.apply(range,this.data.all_range.slice(0,4))
       }
       if (barber.afternoonBookingNum > 0){
-        range.push("下午")
+        range.push.apply(range,this.data.all_range.slice(4,8))
       }
       this.setData({
         skillNo:index,
@@ -50,7 +50,8 @@ Page({
   },
   formsubmit:function(e){
     var time = e.detail.value.time;
-    var bookingType = null;
+    var bookingType = this.data.all_range.indexOf(time) + 1;
+    console.log(time,bookingType)
     if (app.globalData.openId == null){
       wx.showToast({
         title:"请先登录!",
@@ -65,12 +66,7 @@ Page({
          }
       })
     }else{
-      if (time == '上午' || time == '下午' ){
-        if (time == "上午"){
-           bookingType = 1
-          }else{
-            bookingType = 2
-          }
+      if (bookingType > -1 ){
           wx.request({
             url: 'http://localhost:8080/api/insertBook',
             method: "POST",
@@ -92,8 +88,12 @@ Page({
                     duration:500,
                     success: function () {
                       setTimeout(function () {
-                        wx.redirectTo({
-                          url:"/pages/user/user"
+                        wx.switchTab({
+                          url:"/pages/user/user",
+                          success: function(e) {
+                            var page = getCurrentPages().pop();
+                            return page.onLoad();
+                          }
                         })
                       }, 500);
                      }
