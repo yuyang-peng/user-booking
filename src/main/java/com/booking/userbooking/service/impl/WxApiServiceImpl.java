@@ -170,12 +170,17 @@ public class WxApiServiceImpl implements WxApiService {
                 .eq(BookInfo::getOpenId, openId)
                 .orderByDesc(BookInfo::getCreateTime)
                 .list();
-        BookInfo bookInfo = list.get(0);
+        BookInfo bookInfo = null;
+        if(!list.isEmpty()){
+             bookInfo = list.get(0);
+        }
         if (!ObjectUtil.isEmpty(bookInfo)){
             bookInfo.setSkillNo(barberSkillService.lambdaQuery().eq(BarberSkill::getSkillNo, bookInfo.getSkillNo()).one().getSkillName());
+            bookInfo.setBarberNo(barberInfoService.lambdaQuery().eq(BarberInfo::getBarberNo, bookInfo.getBarberNo()).one().getBarberName());
         }
         return bookInfo;
     }
+
 
     @Override
     public boolean verifyBarber(JSONObject param) {
