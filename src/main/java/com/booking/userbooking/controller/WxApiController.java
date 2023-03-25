@@ -87,11 +87,28 @@ public class WxApiController {
     @ResponseBody
     @PostMapping("/wxLogin")
     public ResultObject<Object> login(@RequestBody JSONObject param) {
+        JSONObject rtn = new JSONObject();
+        ResultObject<Object> res = new ResultObject<>();
+        //游客号
+        if ("the code is a mock one".equals(param.getStr("jsCode"))){
+            String openid = "the code is a mock one";
+            String phone = "11111111111";
+            //插入user表
+            UserInfo userInfo = new UserInfo();
+            userInfo.setOpenId(openid);
+            userInfo.setPhone(phone);
+            wxApiService.insertUserInfo(userInfo);
+            rtn.putOnce("phone", phone);
+            rtn.putOnce("openId", openid);
+            res.setCode(Constant.SUCCESS_RETUEN_CODE);
+            res.setData(rtn);
+            log.info(res.toString());
+            return res;
+        }
+
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + Constant.APPID + "&secret=" + Constant.APPSECRET
                 + "&js_code=" + param.getStr("jsCode") + "&grant_type=authorization_code";
         RestTemplate restTemplate = new RestTemplate();
-        JSONObject rtn = new JSONObject();
-        ResultObject<Object> res = new ResultObject<>();
         String access_token = getAccessToken();
         if (access_token == "error"){
             res.setCode(Constant.FAILURE_RETUEN_CODE);
