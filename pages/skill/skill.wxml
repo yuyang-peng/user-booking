@@ -2,15 +2,14 @@
 <!-- 搜索框 -->
 <!-- <input confirm-type="search" value="" placeholder="请输入想要搜索的理发师" class="searchInput"></input> -->
 
-<!-- 附近服务 -->
 <view class="serviceList">
   <view wx:for="{{serviceList}}" wx:key="id" class="swiper_con" data-skillId="{{item.barberNo}}" bindtap="toSkill">
       <image class="dataImg" webp="True" src="http://localhost:8080{{item.image}}"></image>
       <view class="dataInfo">
         <text class="score">评分\n{{item.score}}</text>
-        <text class="name">{{item.barberName}}技师</text>
-        <text class="age">编号:{{item.barberNo}}</text>
-        <text class="phone">联系方式:{{item.barberPhone}}</text>
+        <text class="title">{{item.barberName}}技师</text>
+        <text class="number">编号:{{item.barberNo}}</text>
+        <text class="desc">联系方式:{{item.desc}}</text>
       </view>
     </view>
 </view>

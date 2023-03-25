@@ -1,17 +1,17 @@
 <!--pages/user/user.wxml-->
 <view class="userInfo">
+<view class="poster-bg" style="background-image: url({{userInfo.avatarUrl}}); " ></view>
 <!-- 用户信息 -->
-  <view class="">
+  <view class="image-wrap">
     <image class="userHeader" open-type="getUserInfo"
     bindtap="getUserProfile" src="{{userInfo.avatarUrl}}"></image>
   </view>
   <view class="basicInfo">
-   <text>昵称：{{userInfo.nickName}}</text>  
-   <text>性别：{{userInfo.gender}}</text>  
-   <text>电话：{{phone}}</text>  
-  </view>
+   <text>{{userInfo.nickName}}</text>  
+   <text>{{phone}}</text>  
+    </view>
 </view>
-<view >
+<view class="body">
   <text class="text-center">【预约列表】</text>
   <view wx:if="{{!hasPhone}}" class="text-center">
     <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
@@ -23,11 +23,15 @@
       <text>{{bookInfo}}</text>
     </view>
     <view wx:else class="bookInfo">
-      <text>您预约了{{date}}{{bookInfo.bookingType}}</text>
+      <text>您预约了{{date}}号\n{{bookInfo.bookingType}} 时段</text>
       <text>{{bookInfo.skillNo}} 服务</text>
       <text> 技师为：{{bookInfo.barberNo}} </text>
       <text> 请为ta评分 </text>
-      <rating rating="0" bind:click="change" ></rating>
+      <view class="star">
+      <view class="rat">
+        <rating rating="0" bind:click="change" ></rating>
+      </view>
+      </view>
     </view>
   </view>
 

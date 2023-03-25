@@ -12,8 +12,19 @@ Page({
     interval:2000,
     vertical:false,
     indicatorDots:true,
-    activeList:[{
-    },],
+    activeList:[
+      {activityDescription: "活动1",
+    activityName: "活动1",
+    activityNo: "1",
+    createId: "admin",
+    createTime: 1678792234000,
+    id: 1,
+    image: "/images/d9b3d34ec7124846a8e576d387243667.jpg",
+    status: 0,
+    updateId: "admin",
+    updateTime: 1679729987000,
+      },
+    ],
     currentData:0,
     navTop:[{
       id: 0,
@@ -91,6 +102,7 @@ Page({
             that.setData({
               activeList:res.data.data.activeList
             })
+            console.log(that.data.activeList)
             }else{
               wx.showToast({
                 title: "网络繁忙",
@@ -193,7 +205,16 @@ Page({
       contentInfo: this.data.recommend
     })
   },
-
+  clickImg: function(e){
+    var imgUrl = "http://localhost:8080" + this.data.activeList[e.currentTarget.dataset.index].image;
+    wx.previewImage({
+      urls: [imgUrl], //需要预览的图片http链接列表，注意是数组
+      current: '', // 当前显示图片的http链接，默认是第一个
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

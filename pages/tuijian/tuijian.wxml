@@ -1,16 +1,14 @@
 <!--pages/tuijian/tuijian.wxml-->
 <!-- 轮播图 -->
-<view class="page-body">
-    <view class="page-section page-section-spacing swiper">
+<view>
       <swiper indicator-dots="{{indicatorDots}}"
-        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"  class="page-body">
         <block wx:for="{{activeList}}" wx:key="*this">
-          <swiper-item wx:if="{{item.status == 1}}">
-            <image src="http://localhost:8080{{item.image}}" class="slide-image" mode="scaleToFill"/>
+          <swiper-item wx:if="{{item.status == 1}} && {{item.image.length>0}}">
+            <image src="http://localhost:8080{{item.image}}"  bindtap='clickImg' data-index="{{index}}" mode="aspectFill"/>
           </swiper-item>
         </block>
       </swiper>
-    </view>
 </view>
 <!-- 选项卡 -->
 <view class="topTabSwiper">
@@ -29,7 +27,7 @@
         <view class="dataInfo">
           <text wx:if="{{item.type == 'barber'}}" class="title">{{item.name}}技师</text>
           <text wx:else class="title">{{item.name}}</text>
-          <text class="price">编号：{{item.no}}</text>
+          <text class="number">编号：{{item.no}}</text>
           <text class="desc">{{item.desc}}</text>
         </view>
         <text wx:if="{{item.type == 'barber'}}" class="appoint">详情</text>

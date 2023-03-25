@@ -7,15 +7,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    autoplay:true,
-    duration:1000,
-    interval:2000,
-    vertical:false,
-    indicatorDots:true,
-    currentData:0,
     phone:12345678,
     name:'一剪梅',
-    img_url:'/pages/images/理发店.png',
+    img_url:['/pages/images/理发店1.png','/pages/images/理发店2.png','/pages/images/理发店3.png','/pages/images/理发店4.png','/pages/images/理发店5.png',],
+    latitude:30.38995108997712,
+    longitude:114.54009438938141,
+    markers: [
+      {
+      latitude: 30.38995108997712,
+      longitude: 114.54009438938141,
+      width: 30,
+      height: 30
+      }
+      ],
   },
 
   /**

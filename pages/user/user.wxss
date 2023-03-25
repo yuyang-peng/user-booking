@@ -1,4 +1,14 @@
 /* pages/user/user.wxss */
+page{
+  background-color: rgba(0,0,0, .2);
+}
+.body{
+  height: 740rpx;
+  padding-top: 2%;
+  margin: 2%;
+  border-radius: 2%;
+  background-color:snow;
+}
 .text-center{
   display: block;
   text-align: center;
@@ -11,27 +21,53 @@
   font-size: 20px;
   padding:20rpx;
 }
-.bookInfo>rating{
-  display: block;
-  padding-left:23%;
+.star{
+  height: 100rpx;
+  width: 70%;
+  border-radius: 15rpx;
+  background-color:darkgrey;
+  margin: auto;
+}
+.rat{
+  padding: 20rpx 20rpx 20rpx 40rpx ;
 }
 .userInfo{
-  display: flex;
-  text-align: center;
-  margin: 50rpx 0;
-  padding: 10rpx;
+  position: relative;
+  overflow: hidden;
+  height: 500rpx;
+  background-color: rgba(0,0,0, .3);
 }
-.userInfo>view{
-  flex: 1;
+.poster-bg{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  filter: blur(30rpx);
+  background-size: cover;
+  background-position: center;
+}
+.image-wrap{
+  width: 100%;
+  height: 70%;
+  z-index: 2;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .userHeader{
   border-radius: 50%;
   width: 230rpx;
-  height: 230rpx
+  height: 230rpx;
 }
 .basicInfo{
-  text-align: left;
-  font-size: 28rpx;
+  width: 300rpx;
+  text-align: center;
+  margin: 40% 0 0 30%;
+  position: absolute;
+  font-size: 30rpx;
+  color:black;
 }
 .basicInfo>text{
   display: block

@@ -1,10 +1,16 @@
 <!--pages/home/home.wxml-->
 
-<view>
-  <image class="dataImg" src="{{img_url}}"></image>
+      <swiper indicator-dots="true"
+        autoplay="true" interval="2000" duration="1000" class="swiper" >
+        <block wx:for="{{img_url}}" wx:key="*this">
+          <swiper-item wx:if="{{item.length>0}}">
+            <image src="{{item}}" class="dataImg" mode="scaleToFill"/>
+          </swiper-item>
+        </block>
+      </swiper>
       <view class="dataInfo">
-        <text class="name">欢迎来到{{name}}</text>
-        <text class="phone">联系我们:{{phone}}</text>
-  </view>
-</view>
-
+        <text class="name">店铺名称:{{name}}</text>
+        <text class="phone">联系方式:{{phone}}</text>
+        <text class="phone">本店位置:</text>
+        <map class="map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" scale="14" show-location style="height:450rpx;width:600rpx" />
+      </view>

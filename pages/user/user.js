@@ -8,8 +8,7 @@ Page({
   data: {
     date:new Date(new Date().getTime()+24*60*60*1000).toJSON().substring(0, 10),
     userInfo:{
-      nickName:"点击头像授权",
-      gender:"点击头像授权",
+      nickName:"点击头像授权登陆",
       avatarUrl:"/pages/images/avatar.png",
     },
     bookInfo:{
@@ -17,7 +16,7 @@ Page({
       // bookingType: 2,
       // skillNo: "洗剪吹"
     },
-    phone:"暂未授权",
+    phone:'',
     openId:app.globalData.openId,
     hasPhone:false,
   },
@@ -49,7 +48,6 @@ Page({
     // 获取用户信息
     wx.getUserProfile({
       success: function (res) {
-        console.log(res)
         var userInfo = res.userInfo
         var nickName = userInfo.nickName
         var avatarUrl = userInfo.avatarUrl
@@ -99,10 +97,9 @@ Page({
         }
       },
     })
-    
   },
   getUserProfile(e) {
-    if (this.data.userInfo.nickName == "点击头像授权"){
+    if (this.data.userInfo.nickName == "点击头像授权登陆"){
       wx.getUserProfile({
         desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: (res) => {
