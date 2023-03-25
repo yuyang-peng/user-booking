@@ -1,11 +1,12 @@
 /* pages/skill/skillDetail/skillDetail.wxss */
 page{
-  
   width: 90%;
   margin: 30rpx auto;
 }
 .skillImage{
+  border-radius: 15rpx;
   width: 100%;
+  height: 700rpx;
 }
 .desc{
   width: 100%;

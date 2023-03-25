@@ -8,7 +8,7 @@ Page({
   data: {
     date:new Date(new Date().getTime()+24*60*60*1000).toJSON().substring(0, 10),
     userInfo:{
-      nickName:"点击头像授权登陆",
+      nickName:"点击头像授权信息",
       avatarUrl:"/pages/images/avatar.png",
     },
     bookInfo:{
@@ -26,7 +26,7 @@ Page({
    */
   onLoad: function (options) {
     var gender = ["未知","男","女"];
-    var bookingType = ["上午","下午"]
+    var bookingType = ["8:00-9:00","9:00-10:00","10:00-11:00","11:00-12:00","14:00-15:00","15:00-16:00","16:00-17:00","17:00-18:00"]
     var that = this;
     if (app.globalData.userInfo != null){
       this.setData({
@@ -99,7 +99,7 @@ Page({
     })
   },
   getUserProfile(e) {
-    if (this.data.userInfo.nickName == "点击头像授权登陆"){
+    if (this.data.userInfo.nickName == "点击头像授权信息"){
       wx.getUserProfile({
         desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: (res) => {
